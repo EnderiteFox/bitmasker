@@ -28,6 +28,9 @@ func _unhandled_input(input_event: InputEvent) -> void:
 		
 		
 func add_player_display(controller_id: int) -> void:
+	if player_controllers.size() >= Game.MAX_PLAYERS:
+		return
+	
 	var player_display: PlayerDisplay = player_display_scene.instantiate()
 	player_display.controller_id = controller_id
 	player_display.taken_colors = taken_colors
