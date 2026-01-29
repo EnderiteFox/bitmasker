@@ -4,6 +4,8 @@ extends Control
 
 signal color_selected(color: Color)
 signal color_unselected(color: Color)
+## Emitted when a player chooses to disconnect by pressing cancel without a selected color
+signal disconnected
 
 const COLOR_BUTTONS_PER_LINE: int = 4
 const DEAD_ZONE: float = 0.4
@@ -64,7 +66,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		select_color(color_select_buttons[cursor_index].color)
 		
 	if event.is_action_pressed(&"cancel"):
-		unselect_color()
+		if selected_color == Color.BLACK:
+			disconnected.emit.call_deferred()
+		else:
+			unselect_color()
 	
 	
 func select_color(color: Color) -> void:

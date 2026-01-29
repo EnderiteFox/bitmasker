@@ -38,16 +38,19 @@ func add_player_display(controller_id: int) -> void:
 	
 	player_display.color_selected.connect(_on_color_selected)
 	player_display.color_unselected.connect(_on_color_unselected)
+	player_display.disconnected.connect(remove_player_display.bind(controller_id))
 	
 	
-func _on_controller_connection_state_changed(controller: int, connected: bool) -> void:
-	if connected:
-		return
-		
-	player_controllers[controller].unselect_color()
-	player_controllers[controller].color_selected.disconnect(_on_color_selected)
-	player_controllers[controller].queue_free()
-	player_controllers.erase(controller)
+func remove_player_display(controller_id: int) -> void:
+	player_controllers[controller_id].unselect_color()
+	player_controllers[controller_id].color_selected.disconnect(_on_color_selected)
+	player_controllers[controller_id].queue_free()
+	player_controllers.erase(controller_id)
+	
+	
+func _on_controller_connection_state_changed(controller_id: int, connected: bool) -> void:
+	if not connected:
+		remove_player_display(controller_id)
 	
 	
 func _on_color_selected(color: Color) -> void:
