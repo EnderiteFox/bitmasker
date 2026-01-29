@@ -1,0 +1,84 @@
+class_name SelectionMenu
+extends Control
+
+
+const player_display_scene: PackedScene = preload("uid://csj3ycl753d53")
+
+var player_controllers: Dictionary[int, PlayerDisplay]
+var taken_colors: Array[Color]
+
+@onready var player_list_hbox: HBoxContainer = %PlayerList
+@onready var ready_button: Button = %ReadyButton
+
+
+func _ready() -> void:
+	Input.joy_connection_changed.connect(_on_controller_connection_state_changed)
+
+
+func _unhandled_input(input_event: InputEvent) -> void:
+	if input_event is InputEventJoypadButton\
+	and input_event.is_pressed()\
+	and Input.get_connected_joypads().has(input_event.device)\
+	and not player_controllers.has(input_event.device):
+		add_player_display(input_event.device)
+		return
+		
+	if input_event.is_action_pressed(&"start") and _can_ready():
+		_on_ready()
+		
+		
+func add_player_display(controller_id: int) -> void:
+	var player_display: PlayerDisplay = player_display_scene.instantiate()
+	player_display.controller_id = controller_id
+	player_display.taken_colors = taken_colors
+	player_list_hbox.add_child(player_display)
+	
+	player_controllers[controller_id] = player_display
+	player_display.update_colors()
+	
+	player_display.color_selected.connect(_on_color_selected)
+	player_display.color_unselected.connect(_on_color_unselected)
+	
+	
+func _on_controller_connection_state_changed(controller: int, connected: bool) -> void:
+	if connected:
+		return
+		
+	player_controllers[controller].unselect_color()
+	player_controllers[controller].color_selected.disconnect(_on_color_selected)
+	player_controllers[controller].queue_free()
+	player_controllers.erase(controller)
+	
+	
+func _on_color_selected(color: Color) -> void:
+	taken_colors.append(color)
+
+	for player_display: PlayerDisplay in player_controllers.values():
+		player_display.update_colors()
+		
+	_update_ready_button()
+	
+	
+func _on_color_unselected(color: Color) -> void:
+	taken_colors.erase(color)
+
+	for player_display: PlayerDisplay in player_controllers.values():
+		player_display.update_colors()
+		
+	_update_ready_button()
+	
+	
+func _can_ready() -> bool:
+	return player_controllers.size() > 1\
+	and player_controllers.values().all(
+		func(player_display: PlayerDisplay) -> bool:
+			return player_display.has_selected_color()
+	)
+	
+	
+func _update_ready_button() -> void:
+	ready_button.disabled = not _can_ready()
+	
+	
+func _on_ready() -> void:
+	# TODO: Switch to loadout selection

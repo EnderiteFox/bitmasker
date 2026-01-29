@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://ddtgh0dts4fgf"]
+
+[ext_resource type="Script" uid="uid://dwjqggtitya44" path="res://menus/selection_menu/selection_menu.gd" id="1_sfilx"]
+[ext_resource type="PackedScene" uid="uid://chkh8g0byk657" path="res://background/background.tscn" id="2_rfqc1"]
+
+[node name="SelectionMenu" type="Control" unique_id=540268600]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sfilx")
+metadata/_edit_lock_ = true
+
+[node name="Background" parent="." unique_id=2010093512 instance=ExtResource("2_rfqc1")]
+layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=171561829]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="TopMargin" type="Control" parent="VBoxContainer" unique_id=1872607420]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+metadata/_edit_lock_ = true
+
+[node name="PlayerList" type="HBoxContainer" parent="VBoxContainer" unique_id=93408014]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.4
+alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="BottomMargin" type="Control" parent="VBoxContainer" unique_id=1013166370]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+metadata/_edit_lock_ = true
+
+[node name="ReadyButton" type="Button" parent="VBoxContainer/BottomMargin" unique_id=1180622788]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+disabled = true
+text = "Ready"

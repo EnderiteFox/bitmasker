@@ -1,0 +1,31 @@
+[gd_resource type="Theme" format=3 uid="uid://bwfgjif6ajm18"]
+
+[ext_resource type="StyleBox" uid="uid://bldxm4vdk044r" path="res://theme/default_style_box.tres" id="1_afw5t"]
+
+[sub_resource type="SystemFont" id="SystemFont_afw5t"]
+font_names = PackedStringArray("Hack")
+font_weight = 800
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afw5t"]
+content_margin_left = 30.0
+content_margin_top = 30.0
+content_margin_right = 30.0
+content_margin_bottom = 30.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0.3, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[resource]
+Button/font_sizes/font_size = 24
+Button/fonts/font = SubResource("SystemFont_afw5t")
+Button/styles/disabled = SubResource("StyleBoxFlat_afw5t")
+Button/styles/normal = ExtResource("1_afw5t")
+PanelContainer/styles/panel = ExtResource("1_afw5t")
+VBoxContainer/constants/separation = 16
