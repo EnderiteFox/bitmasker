@@ -81,4 +81,14 @@ func _update_ready_button() -> void:
 	
 	
 func _on_ready() -> void:
+	Game.players.clear()
+
+	for controller_id: int in player_controllers:
+		var player_data: PlayerData = PlayerData.new()
+		player_data.controller_id = controller_id
+		assert(player_controllers[controller_id].selected_color != Color.BLACK)
+		player_data.color = player_controllers[controller_id].selected_color
+		
+		Game.players.append(player_data)
+
 	# TODO: Switch to loadout selection
