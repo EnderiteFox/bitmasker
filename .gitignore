@@ -4,3 +4,6 @@
 
 # Editor ignores
 .idea/
+
+# Temp files
+*.temp
