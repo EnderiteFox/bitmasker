@@ -6,9 +6,16 @@ const ACCELERATION: float = 10
 const SPEED: int = 315
 const DEAD_ZONE: float = 0.2
 const ROTATION_SPEED: float = 0.25
+const SHOOT_COOLDOWN: float = 0.15
+
+const bullet_scene: PackedScene = preload("uid://02qbedb2v4ag")
 
 
 var player: PlayerData
+var shoot_delay: float = 0
+
+
+@onready var bullet_origin: Node2D = %BulletOrigin
 
 
 func _physics_process(delta: float) -> void:
@@ -27,7 +34,18 @@ func _physics_process(delta: float) -> void:
 	velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * ACCELERATION)
 	rotation = lerp_angle(rotation, get_target_rotation(), ROTATION_SPEED)
 	
+	if shoot_delay > 0:
+		shoot_delay -= delta
+	
 	move_and_slide()
+	
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if not event is InputEventJoypadButton or event.device != player.controller_id:
+		return
+		
+	if event.is_action_pressed(&"attack"):
+		shoot()
 
 
 func get_target_rotation() -> float:
@@ -51,3 +69,16 @@ func get_target_rotation() -> float:
 func set_player(player_data: PlayerData) -> void:
 	self.modulate = player_data.color
 	self.player = player_data
+	
+	
+func shoot() -> void:
+	if shoot_delay > 0:
+		return
+		
+	shoot_delay = SHOOT_COOLDOWN
+
+	var bullet: Bullet = bullet_scene.instantiate()
+	self.add_sibling(bullet)
+	bullet.global_position = bullet_origin.global_position
+	bullet.global_rotation = self.global_rotation
+	bullet.set_player(self.player)

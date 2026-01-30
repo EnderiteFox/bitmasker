@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://02qbedb2v4ag"]
+
+[ext_resource type="Script" uid="uid://cuv7od0kdu2lj" path="res://player/bullet/bullet.gd" id="1_txs3d"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_473kp"]
+load_path = "res://.godot/imported/bullet.svg-67dd0d45750975579dddebf6dd9948e7.ctex"
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_473kp"]
+radius = 9.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_txs3d"]
+size = Vector2(20, 5)
+
+[node name="Bullet" type="Area2D" unique_id=1936720849]
+input_pickable = false
+script = ExtResource("1_txs3d")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=281642164]
+scale = Vector2(0.25, 0.25)
+texture = SubResource("CompressedTexture2D_473kp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1523253938]
+position = Vector2(8, 0)
+shape = SubResource("CircleShape2D_473kp")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1471240445]
+position = Vector2(-4, 0)
+shape = SubResource("RectangleShape2D_txs3d")
