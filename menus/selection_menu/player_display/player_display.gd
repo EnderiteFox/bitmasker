@@ -96,6 +96,9 @@ func unselect_color() -> void:
 	player_texture.modulate = Color.WHITE
 	color_unselected.emit(old_color)
 	
+	if Input.has_joy_light(controller_id):
+		Input.set_joy_light(controller_id, Color.BLACK)
+	
 	
 func update_colors() -> void:
 	for color_button: ColorSelectButton in color_select_buttons:

@@ -54,6 +54,8 @@ func remove_player_display(controller_id: int) -> void:
 func _on_controller_connection_state_changed(controller_id: int, connected: bool) -> void:
 	if not connected:
 		remove_player_display(controller_id)
+	elif Input.has_joy_light(controller_id):
+		Input.set_joy_light(controller_id, Color.BLACK)
 	
 	
 func _on_color_selected(color: Color) -> void:
