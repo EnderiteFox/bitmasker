@@ -8,3 +8,6 @@ var controller_id: int
 
 ## The color of the player, affecting their ship and other cosmetic changes
 var color: Color
+
+## The in-game player ship
+var ship: PlayerShip
