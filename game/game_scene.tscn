@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://j8dg6nfj26yi"]
+
+[ext_resource type="Script" uid="uid://c6ahposnuqhol" path="res://game/game_scene.gd" id="1_38oxi"]
+[ext_resource type="PackedScene" uid="uid://chkh8g0byk657" path="res://background/background.tscn" id="1_slngj"]
+[ext_resource type="PackedScene" uid="uid://jmi4p7cfswrg" path="res://camera/follow_all_camera.tscn" id="3_2rju1"]
+
+[node name="GameScene" type="Node2D" unique_id=1749560495]
+script = ExtResource("1_38oxi")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=671098122]
+layer = -1
+
+[node name="Background" parent="CanvasLayer" unique_id=2010093512 instance=ExtResource("1_slngj")]
+top_level = true
+
+[node name="FollowAllCamera" parent="." unique_id=168796799 instance=ExtResource("3_2rju1")]

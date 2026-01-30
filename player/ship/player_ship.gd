@@ -46,3 +46,8 @@ func get_target_rotation() -> float:
 		return joy_l.angle()
 		
 	return rotation
+	
+
+func set_player(player_data: PlayerData) -> void:
+	self.modulate = player_data.color
+	self.player = player_data
