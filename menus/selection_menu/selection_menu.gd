@@ -77,7 +77,7 @@ func _on_color_unselected(color: Color) -> void:
 	
 	
 func _can_ready() -> bool:
-	return player_controllers.size() > 1\
+	return player_controllers.size() > 0\
 	and player_controllers.values().all(
 		func(player_display: PlayerDisplay) -> bool:
 			return player_display.has_selected_color()
@@ -99,4 +99,6 @@ func _on_ready() -> void:
 		
 		Game.players.append(player_data)
 
-	# TODO: Switch to loadout selection
+	var pvp_game: PvpGame = PvpGame.new()
+	Game.game_instance = pvp_game
+	get_tree().change_scene_to_file("uid://j8dg6nfj26yi")
