@@ -106,7 +106,7 @@ func _on_damaged() -> void:
 		
 		
 func _on_destroyed() -> void:
-	print("destroyed")
+	pass
 
 func damage() -> void:
 	damaged.connect(_on_damaged)
