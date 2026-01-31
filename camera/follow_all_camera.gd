@@ -2,7 +2,7 @@ class_name FollowAllCamera
 extends Camera2D
 
 
-const SCREEN_MARGIN: int = 256
+const SCREEN_MARGIN_PERCENTAGE: float = 0.25
 
 
 func _process(_delta: float) -> void:
@@ -18,9 +18,11 @@ func _process(_delta: float) -> void:
 		max_pos.y = max(max_pos.y, player.ship.global_position.y)
 		
 	var current_viewport_res: Vector2 = get_viewport().get_visible_rect().size
+	var screen_margin_vector: Vector2 = current_viewport_res * SCREEN_MARGIN_PERCENTAGE
+	var screen_margin: float = max(screen_margin_vector.x, screen_margin_vector.y)
 	var target_screen_size: Vector2 = Vector2(
-		max_pos.x - min_pos.x + SCREEN_MARGIN * 2,
-		max_pos.y - min_pos.y + SCREEN_MARGIN * 2
+		max_pos.x - min_pos.x + screen_margin * 2,
+		max_pos.y - min_pos.y + screen_margin * 2
 	)
 	
 	var zoom_vector: Vector2 = current_viewport_res / target_screen_size
