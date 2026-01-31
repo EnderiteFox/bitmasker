@@ -72,6 +72,11 @@ func get_target_rotation() -> float:
 		Input.get_joy_axis(player.controller_id, JOY_AXIS_RIGHT_Y)
 	)
 	
+	var bitmasker_target_pos: Vector2 = player.bitmasker.get_ship_target_pos()
+	
+	if bitmasker_target_pos != Vector2.INF:
+		var relative_pos: Vector2 = bitmasker_target_pos - self.global_position
+		return relative_pos.angle()
 	if joy_r.length() > DEAD_ZONE:
 		return joy_r.angle()
 	elif joy_l.length() > DEAD_ZONE:

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dd4c3njk1hoqb"]
+
+[ext_resource type="TileSet" uid="uid://b2gom3urr11fy" path="res://bitmaskers/tilemap/bitmasker_tileset.tres" id="1_b4qsf"]
+
+[node name="BitmaskerTilemap" type="TileMapLayer" unique_id=170976512]
+scale = Vector2(6, 6)
+tile_set = ExtResource("1_b4qsf")
+navigation_enabled = false

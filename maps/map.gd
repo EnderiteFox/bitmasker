@@ -1,5 +1,5 @@
 class_name Map
-extends Node2D
+extends TileMapLayer
 
 
 var spawn_points: Array[Vector2]

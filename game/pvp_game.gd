@@ -25,3 +25,6 @@ func start_game() -> void:
 		var spawn_point: Vector2 = map.spawn_points.pick_random()
 		map.spawn_points.erase(spawn_point)
 		player_ship.global_position = map.to_global(spawn_point)
+		
+		var bitmasker: Bitmasker = RectangularBitmasker.new()
+		bitmasker.set_player(player)
