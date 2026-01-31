@@ -4,7 +4,8 @@ extends GameInstance
 
 const maps: Array[PackedScene] = [
 	preload("uid://dby6dfhhwlgc"),
-	preload("uid://cta62jwvbhmq4")
+	preload("uid://cta62jwvbhmq4"),
+	preload("uid://brnj70n8efxii")
 ]
 
 
