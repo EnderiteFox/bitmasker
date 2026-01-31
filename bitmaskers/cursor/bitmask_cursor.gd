@@ -2,6 +2,10 @@ class_name BitmaskCursor
 extends Sprite2D
 
 
+## Emitted when the cursor moves
+signal moved
+
+
 const POSITION_EASING: float = 10
 const DEAD_ZONE: float = 0.35
 const MOVEMENT_INTERVAL: float = 0.2
@@ -32,14 +36,14 @@ func _process(delta: float) -> void:
 		var movement_vector: Vector2i
 		
 		if joy_x > DEAD_ZONE:
-			movement_vector.x = -1
-		elif joy_x < -DEAD_ZONE:
 			movement_vector.x = 1
+		elif joy_x < -DEAD_ZONE:
+			movement_vector.x = -1
 			
 		if joy_y > DEAD_ZONE:
-			movement_vector.y = -1
-		elif joy_y < -DEAD_ZONE:
 			movement_vector.y = 1
+		elif joy_y < -DEAD_ZONE:
+			movement_vector.y = -1
 			
 		set_tile_position(tile_position + movement_vector)
 		
@@ -49,6 +53,7 @@ func _process(delta: float) -> void:
 				func() -> void:
 					can_move = true
 			)
+			moved.emit()
 
 
 func set_tile_position(new_pos: Vector2i) -> void:
