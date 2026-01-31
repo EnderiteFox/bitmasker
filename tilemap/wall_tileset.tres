@@ -1,10 +1,10 @@
-[gd_scene format=3 uid="uid://d01mlpuhp5b01"]
+[gd_resource type="TileSet" format=3 uid="uid://bvlgnemcua10x"]
 
-[ext_resource type="Texture2D" uid="uid://dm8ejg4sbqg7x" path="res://tilemap/wall_tilemap.png" id="1_3hd43"]
+[ext_resource type="Texture2D" uid="uid://dm8ejg4sbqg7x" path="res://tilemap/wall_tilemap.png" id="1_lt8xf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_737mf"]
 resource_name = "terrain"
-texture = ExtResource("1_3hd43")
+texture = ExtResource("1_lt8xf")
 0:0/0 = 0
 0:0/0/terrain_set = 0
 0:0/0/terrain = 0
@@ -383,13 +383,9 @@ texture = ExtResource("1_3hd43")
 11:3/0/terrains_peering_bit/top_left_corner = 0
 11:3/0/terrains_peering_bit/top_side = 0
 
-[sub_resource type="TileSet" id="TileSet_qdsla"]
+[resource]
 physics_layer_0/collision_layer = 1
 terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_737mf")
-
-[node name="TileMapLayer" type="TileMapLayer" unique_id=990024889]
-texture_filter = 1
-tile_set = SubResource("TileSet_qdsla")
