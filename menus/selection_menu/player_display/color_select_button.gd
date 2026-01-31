@@ -1,5 +1,6 @@
 class_name ColorSelectButton
 extends Button
+## A button for color selection in player displays
 
 
 const TAKEN_DARKER_AMOUNT: float = 0.6

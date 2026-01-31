@@ -19,10 +19,12 @@ func _physics_process(delta: float) -> void:
 	) * delta * BULLET_SPEED
 
 
+## Removes the bullet
 func destroy() -> void:
 	queue_free()
 
 
+## Initialized the bullet with a player, and colors it with the player's color
 func set_player(player_data: PlayerData) -> void:
 	player = player_data
 	self.modulate = player_data.color
