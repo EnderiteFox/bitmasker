@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://jqwtriutj0fe"]
+
+[ext_resource type="Texture2D" uid="uid://b0gs8soop88y0" path="res://bitmaskers/cursor/bitmask_cursor.png" id="1_i7ppf"]
+[ext_resource type="Script" uid="uid://c1gqko4oufedm" path="res://bitmaskers/cursor/bitmask_cursor.gd" id="2_jcrvq"]
+
+[node name="BitmaskCursor" type="Sprite2D" unique_id=1953607345]
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("1_i7ppf")
+offset = Vector2(128, 128)
+script = ExtResource("2_jcrvq")
