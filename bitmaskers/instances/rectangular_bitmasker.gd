@@ -1,8 +1,12 @@
 class_name RectangularBitmasker
 extends Bitmasker
+## A bitmasker that selects a rectangular region
 
 
+## The current cursor
 var cursor: BitmaskCursor = null
+## The first selected corner of the rectangle
+## Vector2i.MAX if the first corner was not selected yet
 var selection_start: Vector2i = Vector2i.MAX
 
 
@@ -66,13 +70,16 @@ func get_ship_target_pos() -> Vector2:
 		
 	return cursor.global_position - tile_to_global(Vector2i(1, 1)) / 2
 	
-	
+
+## Called when the cursor moves
 func _on_cursor_move() -> void:
 	if selection_start != Vector2i.MAX:
 		tilemap_layer.clear()
 		_fill_rect(selection_start, cursor.tile_position, false)
 	
 	
+## Fills a rectangle in the selection
+## If final_selection is false, fills the selection with preview tiles
 func _fill_rect(corner_1: Vector2i, corner_2: Vector2i, final_selection: bool) -> void:
 	var min_corner: Vector2i = Vector2i(
 		mini(corner_1.x, corner_2.x),

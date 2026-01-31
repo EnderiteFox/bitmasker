@@ -1,5 +1,6 @@
 class_name BitmaskCursor
 extends Sprite2D
+## A cursor used to select a tile
 
 
 ## Emitted when the cursor moves
@@ -8,6 +9,7 @@ signal moved
 
 const POSITION_EASING: float = 10
 const DEAD_ZONE: float = 0.35
+## The time interval between two moves of the cursor
 const MOVEMENT_INTERVAL: float = 0.2
 
 
@@ -56,11 +58,13 @@ func _process(delta: float) -> void:
 			moved.emit()
 
 
+## Sets the tile position of the cursor
 func set_tile_position(new_pos: Vector2i) -> void:
 	tile_position = new_pos
 	self.target_position = bitmasker.tile_to_global(new_pos)
 	
 	
+## Sets the tile position of the cursor without animation
 func set_tile_position_instant(new_pos: Vector2i) -> void:
 	set_tile_position(new_pos)
 	self.global_position = bitmasker.tile_to_global(new_pos)

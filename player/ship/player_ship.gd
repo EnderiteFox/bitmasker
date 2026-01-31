@@ -62,6 +62,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		shoot()
 
 
+## Returns the direction the ship is aiming at
 func get_target_rotation() -> float:
 	var joy_l: Vector2 = Vector2(
 		Input.get_joy_axis(player.controller_id, JOY_AXIS_LEFT_X),
@@ -85,6 +86,7 @@ func get_target_rotation() -> float:
 	return rotation
 	
 
+## Initializes the ship with a player
 func set_player(player_data: PlayerData) -> void:
 	self.modulate = player_data.color
 	self.player = player_data
@@ -103,6 +105,7 @@ func shoot() -> void:
 	bullet.set_player(self.player)
 
 
+## Called when the ship is damaged
 func _on_damaged() -> void:
 	if timer.is_stopped():
 		var damage_tween: Tween = get_tree().create_tween()
@@ -115,8 +118,11 @@ func _on_damaged() -> void:
 			destroyed.emit()
 		
 		
+## Called when the ship runs out of lives
 func _on_destroyed() -> void:
 	pass
 
+
+## Damages the ship
 func damage() -> void:
 	damaged.emit()

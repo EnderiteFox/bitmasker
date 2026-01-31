@@ -72,6 +72,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			unselect_color()
 	
 	
+## Selects the given color for the player
 func select_color(color: Color) -> void:
 	if taken_colors.has(color):
 		return
@@ -87,6 +88,7 @@ func select_color(color: Color) -> void:
 		Input.set_joy_light(controller_id, color)
 	
 	
+## Unselects the currently selected color
 func unselect_color() -> void:
 	if selected_color == Color.BLACK:
 		return
@@ -100,6 +102,7 @@ func unselect_color() -> void:
 		Input.set_joy_light(controller_id, Color.BLACK)
 	
 	
+## Updates the color buttons
 func update_colors() -> void:
 	for color_button: ColorSelectButton in color_select_buttons:
 		if taken_colors.has(color_button.color):
@@ -108,10 +111,12 @@ func update_colors() -> void:
 			color_button.set_free()
 			
 			
+## Returns true if the player has selected a color
 func has_selected_color() -> bool:
 	return selected_color != Color.BLACK
 	
 	
+## Updates the cursor
 func _cursor_process(delta: float) -> void:
 	cursor.position = lerp(
 		cursor.position, 

@@ -1,5 +1,6 @@
 class_name FollowAllCamera
 extends Camera2D
+## A camera that keeps all players on screen
 
 
 const SCREEN_MARGIN_PERCENTAGE: float = 0.25
@@ -10,6 +11,7 @@ func _process(_delta: float) -> void:
 	var min_pos: Vector2 = Vector2.INF
 	var max_pos: Vector2 = -Vector2.INF
 	
+	# Iterate over players to get the minimum and maximum positions on screen
 	for player: PlayerData in Game.players:
 		var bitmasker_rect: Rect2 = player.bitmasker.get_camera_rect()
 		var has_bitmasker_constraint: bool = bitmasker_rect.size != Vector2.ZERO
@@ -26,6 +28,7 @@ func _process(_delta: float) -> void:
 			max_pos.x = max(max_pos.x, bitmasker_rect.position.x + bitmasker_rect.size.x)
 			max_pos.y = max(max_pos.y, bitmasker_rect.position.y + bitmasker_rect.size.y)
 		
+	# Adjust zoom to keep everything on screen
 	var current_viewport_res: Vector2 = get_viewport().get_visible_rect().size
 	var screen_margin_vector: Vector2 = current_viewport_res * SCREEN_MARGIN_PERCENTAGE
 	var screen_margin: float = max(screen_margin_vector.x, screen_margin_vector.y)

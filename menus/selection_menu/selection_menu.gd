@@ -27,6 +27,7 @@ func _unhandled_input(input_event: InputEvent) -> void:
 		_on_ready()
 		
 		
+## Adds a player display
 func add_player_display(controller_id: int) -> void:
 	if player_controllers.size() >= Game.MAX_PLAYERS:
 		return
@@ -44,6 +45,7 @@ func add_player_display(controller_id: int) -> void:
 	player_display.disconnected.connect(remove_player_display.bind(controller_id))
 	
 	
+## Removes a player display
 func remove_player_display(controller_id: int) -> void:
 	if not player_controllers.has(controller_id):
 		return
@@ -54,6 +56,7 @@ func remove_player_display(controller_id: int) -> void:
 	player_controllers.erase(controller_id)
 	
 	
+## Called when a controller connects or disconnects
 func _on_controller_connection_state_changed(controller_id: int, connected: bool) -> void:
 	if not connected:
 		remove_player_display(controller_id)
@@ -61,6 +64,7 @@ func _on_controller_connection_state_changed(controller_id: int, connected: bool
 		Input.set_joy_light(controller_id, Color.BLACK)
 	
 	
+## Called when a player selects their color
 func _on_color_selected(color: Color) -> void:
 	taken_colors.append(color)
 
@@ -70,6 +74,7 @@ func _on_color_selected(color: Color) -> void:
 	_update_ready_button()
 	
 	
+## Called when a player unselects their color
 func _on_color_unselected(color: Color) -> void:
 	taken_colors.erase(color)
 
@@ -78,7 +83,8 @@ func _on_color_unselected(color: Color) -> void:
 		
 	_update_ready_button()
 	
-	
+
+## Returns true all players are ready
 func _can_ready() -> bool:
 	return player_controllers.size() > 0\
 	and player_controllers.values().all(
@@ -87,10 +93,12 @@ func _can_ready() -> bool:
 	)
 	
 	
+## Updates the ready button
 func _update_ready_button() -> void:
 	ready_button.disabled = not _can_ready()
 	
 	
+## Called when the ready button is pressed
 func _on_ready() -> void:
 	Game.players.clear()
 

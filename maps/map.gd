@@ -2,6 +2,8 @@ class_name Map
 extends TileMapLayer
 
 
+## All possible spawn points for the players
+## Initialized with Marker2Ds in the map
 var spawn_points: Array[Vector2]
 
 

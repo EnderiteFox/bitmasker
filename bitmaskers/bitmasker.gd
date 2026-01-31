@@ -5,10 +5,14 @@ extends Node2D
 const tilemap_scene: PackedScene = preload("uid://dd4c3njk1hoqb")
 const cursor_scene: PackedScene = preload("uid://jqwtriutj0fe")
 
+## How far the cursor spawns
 const CURSOR_SPAWN_DISTANCE: float = 300
 const DEAD_ZONE: float = 0.2
+## How long before the selection becomes unstable
 const SELECTION_STABILITY_DURATION: float = 10
+## How long between two tiles disappearing when the selection is unstable
 const UNSTABILITY_INTERVAL: float = 0.5
+## Cooldown between selections after validating a selection
 const AFTER_VALIDATION_COOLDOWN: float = 5
 
 const PREVIEW_CELL: Vector2i = Vector2i(1, 0)
@@ -20,6 +24,7 @@ var tilemap_layer: TileMapLayer
 ## Last frame's trigger value for the select button
 var last_trigger_value: float = 0
 
+## How long before the selection becomes unstable
 var remaining_stability: float = SELECTION_STABILITY_DURATION
 
 ## True when the selection has been confirmed
@@ -116,6 +121,7 @@ func loses_stability() -> bool:
 @abstract func get_ship_target_pos() -> Vector2
 
 
+## Turns a global position into tile coordinates
 func global_to_tile(pos: Vector2) -> Vector2i:
 	var relative_pos: Vector2 = pos - tilemap_layer.global_position
 	return Vector2i(
@@ -124,6 +130,7 @@ func global_to_tile(pos: Vector2) -> Vector2i:
 	)
 	
 	
+## Turns tile coordinates into a global position
 func tile_to_global(tile_pos: Vector2i) -> Vector2:
 	return tile_pos * tilemap_layer.tile_set.tile_size * tilemap_layer.scale.x
 	
