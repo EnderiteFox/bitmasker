@@ -12,6 +12,7 @@ motion_mode = 1
 script = ExtResource("1_0i6ok")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1360234029]
+unique_name_in_owner = true
 rotation = 1.5707964
 texture = ExtResource("1_rlupy")
 
@@ -21,3 +22,6 @@ shape = SubResource("CircleShape2D_rlupy")
 [node name="BulletOrigin" type="Node2D" parent="." unique_id=1723107305]
 unique_name_in_owner = true
 position = Vector2(55.622078, 0)
+
+[node name="Timer" type="Timer" parent="." unique_id=1909790985]
+one_shot = true

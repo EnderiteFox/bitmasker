@@ -16,9 +16,17 @@ func _physics_process(delta: float) -> void:
 
 
 func destroy() -> void:
-	pass
-	
-	
+	queue_free()
+
+
 func set_player(player_data: PlayerData) -> void:
 	player = player_data
 	self.modulate = player_data.color
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body != player.ship:
+		if body is PlayerShip:
+			var player_ship: PlayerShip = body
+			player_ship.damage()
+		destroy()

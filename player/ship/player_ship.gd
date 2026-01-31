@@ -1,21 +1,30 @@
 class_name PlayerShip
 extends CharacterBody2D
 
+signal damaged
+signal destroyed
+
 
 const ACCELERATION: float = 10
 const SPEED: int = 315
 const DEAD_ZONE: float = 0.2
 const ROTATION_SPEED: float = 0.25
 const SHOOT_COOLDOWN: float = 0.15
+const MAX_HEALTH: int = 5
+const INVISIBILITY_TIME: float = 1
+const HIT_ANIM_LOOP: int = 3
 
 const bullet_scene: PackedScene = preload("uid://02qbedb2v4ag")
 
 
 var player: PlayerData
 var shoot_delay: float = 0
+var health: int = MAX_HEALTH
 
 
+@onready var ship_sprite: Sprite2D = %Sprite2D
 @onready var bullet_origin: Node2D = %BulletOrigin
+@onready var timer: Timer = $Timer
 
 
 func _physics_process(delta: float) -> void:
@@ -82,3 +91,22 @@ func shoot() -> void:
 	bullet.global_position = bullet_origin.global_position
 	bullet.global_rotation = self.global_rotation
 	bullet.set_player(self.player)
+
+
+func _on_damaged() -> void:
+	if timer.is_stopped():
+		var damage_tween: Tween = get_tree().create_tween()
+		damage_tween.set_loops(HIT_ANIM_LOOP)
+		damage_tween.tween_property(ship_sprite, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
+		damage_tween.tween_property(ship_sprite, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
+		health -= 1
+		timer.start()
+		if health == 0:
+			destroyed.connect(_on_destroyed)
+		
+		
+func _on_destroyed() -> void:
+	print("destroyed")
+
+func damage() -> void:
+	damaged.connect(_on_damaged)
