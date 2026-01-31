@@ -45,6 +45,9 @@ func add_player_display(controller_id: int) -> void:
 	
 	
 func remove_player_display(controller_id: int) -> void:
+	if not player_controllers.has(controller_id):
+		return
+
 	player_controllers[controller_id].unselect_color()
 	player_controllers[controller_id].color_selected.disconnect(_on_color_selected)
 	player_controllers[controller_id].queue_free()
