@@ -1,0 +1,11 @@
+[gd_resource type="TileSet" format=3 uid="uid://b2gom3urr11fy"]
+
+[ext_resource type="Texture2D" uid="uid://b23o536i3tppo" path="res://bitmaskers/tilemap/bitmasker_tileset.png" id="1_g182j"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g182j"]
+texture = ExtResource("1_g182j")
+0:0/0 = 0
+
+[resource]
+physics_layer_0/collision_layer = 2
+sources/1 = SubResource("TileSetAtlasSource_g182j")

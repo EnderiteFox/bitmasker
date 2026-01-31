@@ -11,3 +11,6 @@ var color: Color
 
 ## The in-game player ship
 var ship: PlayerShip
+
+## The bitmasker of the player
+var bitmasker: Bitmasker

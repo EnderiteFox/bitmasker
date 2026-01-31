@@ -11,11 +11,20 @@ func _process(_delta: float) -> void:
 	var max_pos: Vector2 = -Vector2.INF
 	
 	for player: PlayerData in Game.players:
+		var bitmasker_rect: Rect2 = player.bitmasker.get_camera_rect()
+		var has_bitmasker_constraint: bool = bitmasker_rect.size != Vector2.ZERO
+	
 		self.global_position += player.ship.global_position / Game.players.size()
 		min_pos.x = min(min_pos.x, player.ship.global_position.x)
 		min_pos.y = min(min_pos.y, player.ship.global_position.y)
 		max_pos.x = max(max_pos.x, player.ship.global_position.x)
 		max_pos.y = max(max_pos.y, player.ship.global_position.y)
+		
+		if has_bitmasker_constraint:
+			min_pos.x = min(min_pos.x, bitmasker_rect.position.x)
+			min_pos.y = min(min_pos.y, bitmasker_rect.position.y)
+			max_pos.x = max(max_pos.x, bitmasker_rect.position.x + bitmasker_rect.size.x)
+			max_pos.y = max(max_pos.y, bitmasker_rect.position.y + bitmasker_rect.size.y)
 		
 	var current_viewport_res: Vector2 = get_viewport().get_visible_rect().size
 	var screen_margin_vector: Vector2 = current_viewport_res * SCREEN_MARGIN_PERCENTAGE
