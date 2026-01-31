@@ -27,6 +27,11 @@ var health: int = MAX_HEALTH
 @onready var timer: Timer = $Timer
 
 
+func _ready() -> void:
+	damaged.connect(_on_damaged)
+	destroyed.connect(_on_destroyed)
+
+
 func _physics_process(delta: float) -> void:
 	if not player:
 		return
@@ -102,11 +107,11 @@ func _on_damaged() -> void:
 		health -= 1
 		timer.start()
 		if health == 0:
-			destroyed.connect(_on_destroyed)
+			destroyed.emit()
 		
 		
 func _on_destroyed() -> void:
 	pass
 
 func damage() -> void:
-	damaged.connect(_on_damaged)
+	damaged.emit()

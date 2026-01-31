@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://cta62jwvbhmq4"]
 
 [ext_resource type="TileSet" uid="uid://bvlgnemcua10x" path="res://tilemap/wall_tileset.tres" id="1_c6cnq"]
-[ext_resource type="Script" uid="uid://dbadauuhle046" path="res://maps/map.gd" id="2_newxn"]
+[ext_resource type="Script" path="res://maps/map.gd" id="2_newxn"]
 
 [node name="MediumMap2" type="TileMapLayer" unique_id=620073932]
 texture_filter = 1
