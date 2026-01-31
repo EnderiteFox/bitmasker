@@ -7,6 +7,9 @@ const cursor_scene: PackedScene = preload("uid://jqwtriutj0fe")
 
 const CURSOR_SPAWN_DISTANCE: float = 300
 const DEAD_ZONE: float = 0.2
+const SELECTION_STABILITY_DURATION: float = 10
+const UNSTABILITY_INTERVAL: float = 0.5
+const AFTER_VALIDATION_COOLDOWN: float = 5
 
 const PREVIEW_CELL: Vector2i = Vector2i(1, 0)
 const SELECTION_CELL: Vector2i = Vector2i.ZERO
@@ -17,8 +20,21 @@ var tilemap_layer: TileMapLayer
 ## Last frame's trigger value for the select button
 var last_trigger_value: float = 0
 
+var remaining_stability: float = SELECTION_STABILITY_DURATION
 
-func _process(_delta: float) -> void:
+## True when the selection has been confirmed
+var selection_complete: bool = false
+## True if the ability is currently active
+var ability_active: bool = false
+## True if the player is currently able to select
+var can_select: bool = true
+
+
+func _ready() -> void:
+	reset_stability()
+
+
+func _process(delta: float) -> void:
 	var current_trigger: float = Input.get_joy_axis(player.controller_id, JOY_AXIS_TRIGGER_LEFT)
 
 	if last_trigger_value <= DEAD_ZONE and current_trigger > DEAD_ZONE:
@@ -27,6 +43,13 @@ func _process(_delta: float) -> void:
 		on_unselect()
 			
 	last_trigger_value = current_trigger
+	
+	if selection_complete and not ability_active and loses_stability():
+		remaining_stability -= delta * get_stability_multiplier()
+	
+	if remaining_stability <= -UNSTABILITY_INTERVAL:
+		remaining_stability = 0
+		apply_unstability()
 	
 	
 func _unhandled_input(event: InputEvent) -> void:
@@ -73,6 +96,16 @@ func on_confirm() -> void:
 	pass
 	
 	
+## Returns the multiplier for stability
+func get_stability_multiplier() -> float:
+	return 1.0
+	
+	
+## Returns true if the selection can lose stability
+func loses_stability() -> bool:
+	return true
+	
+	
 ## Returns a rectangle that should be in view of the camera
 ## If no constraint is imposed, returns a rectangle of size 0
 @abstract func get_camera_rect() -> Rect2
@@ -94,8 +127,37 @@ func global_to_tile(pos: Vector2) -> Vector2i:
 func tile_to_global(tile_pos: Vector2i) -> Vector2:
 	return tile_pos * tilemap_layer.tile_set.tile_size * tilemap_layer.scale.x
 	
+	
+## Resets the stability timer
+func reset_stability() -> void:
+	remaining_stability = SELECTION_STABILITY_DURATION - UNSTABILITY_INTERVAL
+	
+	
+## Removes a random tile from the selection
+func apply_unstability() -> void:
+	var cells: Array[Vector2i] = tilemap_layer.get_used_cells_by_id(1, SELECTION_CELL)
+	
+	if cells.is_empty():
+		clear_selection()
+		reset_stability()
+		return
+
+	var removed_cell: Vector2i = cells.pick_random()
+	tilemap_layer.set_cell(removed_cell)
+	
+	
+## Confirms the validation, setting the cooldown before selecting again
+func confirm_validation() -> void:
+	selection_complete = true
+	reset_stability()
+	can_select = false
+	get_tree().create_timer(AFTER_VALIDATION_COOLDOWN).timeout.connect(
+		func() -> void:
+			can_select = true
+	)
+	
 
 ## Clears the selection
 func clear_selection() -> void:
 	tilemap_layer.clear()
-	selection_complete = true
+	selection_complete = false
