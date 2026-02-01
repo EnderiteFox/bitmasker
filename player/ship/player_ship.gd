@@ -24,8 +24,6 @@ var player: PlayerData
 var shoot_delay: float = 0
 var health: int = MAX_HEALTH
 
-
-@onready var ship_sprite: Sprite2D = %Sprite2D
 @onready var bullet_origin: Node2D = %BulletOrigin
 @onready var timer: Timer = $Timer
 @onready var tilemap_detector: Area2D = %TilemapDetector
@@ -121,8 +119,8 @@ func _on_damaged() -> void:
 	if timer.is_stopped():
 		var damage_tween: Tween = get_tree().create_tween()
 		damage_tween.set_loops(HIT_ANIM_LOOP)
-		damage_tween.tween_property(ship_sprite, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
-		damage_tween.tween_property(ship_sprite, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
+		damage_tween.tween_property(self, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
+		damage_tween.tween_property(self, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		health -= 1
 		timer.start()
 		if health == 0:
