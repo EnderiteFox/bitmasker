@@ -3,6 +3,7 @@ extends Control
 
 
 const player_display_scene: PackedScene = preload("uid://csj3ycl753d53")
+const loadout_menu_scene: PackedScene = preload("uid://ch2bfun51clpe")
 
 var player_controllers: Dictionary[int, PlayerDisplay]
 var taken_colors: Array[Color]
@@ -112,4 +113,4 @@ func _on_ready() -> void:
 
 	var pvp_game: PvpGame = PvpGame.new()
 	Game.game_instance = pvp_game
-	get_tree().change_scene_to_file("uid://j8dg6nfj26yi")
+	get_tree().change_scene_to_packed(loadout_menu_scene)
