@@ -73,7 +73,8 @@ func set_player(player_data: PlayerData) -> void:
 	self.player = player_data
 	self.tilemap_layer = tilemap_scene.instantiate()
 	self.tilemap_layer.modulate = player_data.color
-	player_data.ship.add_sibling(self.tilemap_layer)
+	player_data.ship.add_child(self.tilemap_layer)
+	self.tilemap_layer.top_level = true
 	
 	
 ## Spawn a cursor in front of the player's ship
@@ -81,7 +82,8 @@ func spawn_cursor() -> BitmaskCursor:
 	var global_spawn_pos: Vector2 = player.ship.global_position + Vector2.RIGHT.rotated(player.ship.global_rotation) * CURSOR_SPAWN_DISTANCE
 	var cursor: BitmaskCursor = cursor_scene.instantiate()
 	cursor.bitmasker = self
-	player.ship.add_sibling(cursor)
+	player.ship.add_child(cursor)
+	cursor.top_level = true
 	cursor.set_tile_position_instant(global_to_tile(global_spawn_pos - cursor.texture.get_size() * cursor.scale))
 	cursor.modulate = player.color
 	return cursor

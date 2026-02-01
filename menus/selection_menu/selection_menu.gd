@@ -14,6 +14,14 @@ var taken_colors: Array[Color]
 
 func _ready() -> void:
 	Input.joy_connection_changed.connect(_on_controller_connection_state_changed)
+	
+	for player: PlayerData in Game.players:
+		add_player_display(player.controller_id, player)
+		
+	for player_display: PlayerDisplay in player_controllers.values():
+		player_display.update_colors()
+		
+	_update_ready_button()
 
 
 func _unhandled_input(input_event: InputEvent) -> void:
@@ -29,16 +37,20 @@ func _unhandled_input(input_event: InputEvent) -> void:
 		
 		
 ## Adds a player display
-func add_player_display(controller_id: int) -> void:
+func add_player_display(controller_id: int, player: PlayerData = null) -> void:
 	if player_controllers.size() >= Game.MAX_PLAYERS:
 		return
 	
 	var player_display: PlayerDisplay = player_display_scene.instantiate()
 	player_display.controller_id = controller_id
 	player_display.taken_colors = taken_colors
+	player_display.player = player
 	player_list_hbox.add_child(player_display)
 	
 	player_controllers[controller_id] = player_display
+	if player != null:
+		player_display.select_color(player.color)
+		taken_colors.append(player.color)
 	player_display.update_colors()
 	
 	player_display.color_selected.connect(_on_color_selected)
@@ -85,9 +97,9 @@ func _on_color_unselected(color: Color) -> void:
 	_update_ready_button()
 	
 
-## Returns true all players are ready
+## Returns true if all players are ready
 func _can_ready() -> bool:
-	return player_controllers.size() > 0\
+	return player_controllers.size() > 1\
 	and player_controllers.values().all(
 		func(player_display: PlayerDisplay) -> bool:
 			return player_display.has_selected_color()
@@ -101,15 +113,19 @@ func _update_ready_button() -> void:
 	
 ## Called when the ready button is pressed
 func _on_ready() -> void:
-	Game.players.clear()
-
 	for controller_id: int in player_controllers:
-		var player_data: PlayerData = PlayerData.new()
-		player_data.controller_id = controller_id
-		assert(player_controllers[controller_id].selected_color != Color.BLACK)
-		player_data.color = player_controllers[controller_id].selected_color
+		var player_display: PlayerDisplay = player_controllers[controller_id]
 		
-		Game.players.append(player_data)
+		var player_data: PlayerData
+		if player_display.player == null:
+			player_data = PlayerData.new()
+			player_data.controller_id = controller_id
+			Game.players.append(player_data)
+		else:
+			player_data = player_display.player
+		
+		assert(player_display.selected_color != Color.BLACK)
+		player_data.color = player_display.selected_color
 
 	var pvp_game: PvpGame = PvpGame.new()
 	Game.game_instance = pvp_game

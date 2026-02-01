@@ -20,6 +20,9 @@ var can_move: bool = true
 
 
 func _process(delta: float) -> void:
+	if bitmasker == null:
+		return
+
 	self.global_position.x = move_toward(
 		self.global_position.x, 
 		self.target_position.x, 

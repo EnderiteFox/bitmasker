@@ -19,6 +19,7 @@ var player_texture_target_rotation: float = 0
 var taken_colors: Array[Color]
 var selected_color: Color = Color.BLACK
 var cursor_index: int = 0
+var player: PlayerData
 
 @onready var player_texture: TextureRect = %PlayerTexture
 @onready var cursor: Control = %Cursor
@@ -27,6 +28,9 @@ var cursor_index: int = 0
 func _ready() -> void:
 	player_texture.pivot_offset_ratio = Vector2(0.5, 0.5)
 	cursor.global_position = color_select_buttons[0].global_position
+	
+	if player != null:
+		select_color(player.color)
 	
 	
 func _process(delta: float) -> void:

@@ -8,9 +8,12 @@ const maps: Array[PackedScene] = [
 	preload("uid://dihl3s10lvbcx"),
 	preload("uid://b5bcad6m74hvo")
 ]
+const END_ANIMATION_TIME: float = 5
 
 
 var map: Map
+## Used in the end animation to prevent starting it multiple times
+var end_animation_started: bool = false
 
 
 func start_game() -> void:
@@ -25,7 +28,40 @@ func start_game() -> void:
 		var player_ship: PlayerShip = ship_scene.instantiate()
 		self.add_child(player_ship)
 		player_ship.global_position = map.to_global(spawn_point)
+		player_ship.destroyed.connect(_on_player_death.bind(player))
 		
 		player.init_player(player_ship)
 		
 	game_started.emit()
+	
+	
+func _on_player_death(player: PlayerData) -> void:
+	player.ship.queue_free()
+	player.bitmasker.queue_free()
+	player.ability.queue_free()
+	_remove_player.call_deferred(player)
+		
+		
+func _remove_player(player: PlayerData) -> void:
+	player.ship = null
+	player.ability = null
+	player.bitmasker = null
+	
+	var alive_players: Array[PlayerData] = Game.players.filter(
+		func(other_player: PlayerData) -> bool:
+			return other_player.ship != null
+	)
+	if alive_players.size() <= 1:
+		_on_game_end()
+	
+	
+func _on_game_end() -> void:
+	if end_animation_started:
+		return
+		
+	end_animation_started = true
+		
+	get_tree().create_timer(END_ANIMATION_TIME).timeout.connect(
+		func() -> void:
+			get_tree().change_scene_to_file("uid://ddtgh0dts4fgf")
+	)
