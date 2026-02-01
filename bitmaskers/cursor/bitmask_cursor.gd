@@ -10,7 +10,7 @@ signal moved
 const POSITION_EASING: float = 10
 const DEAD_ZONE: float = 0.35
 ## The time interval between two moves of the cursor
-const MOVEMENT_INTERVAL: float = 0.2
+const MOVEMENT_INTERVAL: float = 0.1
 
 
 var bitmasker: Bitmasker
