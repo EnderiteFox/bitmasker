@@ -8,11 +8,10 @@ const AFTER_ABILITY_COOLDOWN: float = 5
 var activated: bool = false
 
 
-var bitmasker: Bitmasker
-		
-var player: PlayerData:
-	get():
-		return bitmasker.player
+var player: PlayerData
+var bitmasker: Bitmasker:
+	get:
+		return player.bitmasker
 		
 		
 func _unhandled_input(event: InputEvent) -> void:

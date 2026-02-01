@@ -14,3 +14,18 @@ var ship: PlayerShip
 
 ## The bitmasker of the player
 var bitmasker: Bitmasker
+
+var ability: Ability
+
+
+func init_player(p_ship: PlayerShip, p_bitmasker: Bitmasker, p_ability: Ability) -> void:
+	self.ship = p_ship
+	self.bitmasker = p_bitmasker
+	self.ability = p_ability
+	
+	ship.add_child(bitmasker)
+	ship.add_child(ability)
+	
+	ability.player = self
+	ship.set_player(self)
+	bitmasker.set_player(self)
