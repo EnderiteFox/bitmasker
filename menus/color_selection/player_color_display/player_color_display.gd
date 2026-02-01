@@ -61,10 +61,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		cursor_index = (cursor_index + 4) % 8
 		
 	if event.is_action_pressed(&"controller_right"):
-		cursor_index = int(cursor_index / 4.0) * 4 + (cursor_index + 1) % 4
+		cursor_index = int(cursor_index / 4.0) * 4 + posmod(cursor_index + 1, 4)
 		
 	if event.is_action_pressed(&"controller_left"):
-		cursor_index = int(cursor_index / 4.0) * 4 + (cursor_index - 1) % 4
+		cursor_index = int(cursor_index / 4.0) * 4 + posmod(cursor_index - 1, 4)
 		
 	if event.is_action_pressed(&"select_color"):
 		select_color(color_select_buttons[cursor_index].color)
