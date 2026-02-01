@@ -3,6 +3,9 @@ extends Bitmasker
 ## A bitmasker that selects a rectangular region
 
 
+const MAX_SIZE: int = 50
+
+
 ## The current cursor
 var cursor: BitmaskCursor = null
 ## The first selected corner of the rectangle
@@ -72,10 +75,13 @@ func get_ship_target_pos() -> Vector2:
 	
 
 ## Called when the cursor moves
-func _on_cursor_move() -> void:
+func _on_cursor_move(old_pos: Vector2i, new_pos: Vector2i) -> void:
 	if selection_start != Vector2i.MAX:
 		tilemap_layer.clear()
 		_fill_rect(selection_start, cursor.tile_position, false)
+		if (abs(selection_start.x - new_pos.x) + 1) * (abs(selection_start.y - new_pos.y) + 1) >= MAX_SIZE:
+			cursor.tile_position = old_pos
+		
 	
 	
 ## Fills a rectangle in the selection
