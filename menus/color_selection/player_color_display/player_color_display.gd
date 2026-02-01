@@ -27,7 +27,6 @@ var player: PlayerData
 
 func _ready() -> void:
 	player_texture.pivot_offset_ratio = Vector2(0.5, 0.5)
-	cursor.global_position = color_select_buttons[0].global_position
 	
 	if player != null:
 		select_color(player.color)
@@ -118,6 +117,11 @@ func update_colors() -> void:
 ## Returns true if the player has selected a color
 func has_selected_color() -> bool:
 	return selected_color != Color.BLACK
+	
+	
+## Places the cursor on the first color
+func init_cursor() -> void:
+	cursor.global_position = color_select_buttons[0].global_position
 	
 	
 ## Updates the cursor
