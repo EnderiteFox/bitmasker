@@ -26,9 +26,6 @@ func start_game() -> void:
 		self.add_child(player_ship)
 		player_ship.global_position = map.to_global(spawn_point)
 		
-		var bitmasker: Bitmasker = RectangularBitmasker.new()
-		var ability: Ability = Terminate.new()
-		
-		player.init_player(player_ship, bitmasker, ability)
+		player.init_player(player_ship)
 		
 	game_started.emit()
