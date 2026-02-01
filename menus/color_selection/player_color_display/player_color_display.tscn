@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://csj3ycl753d53"]
 
-[ext_resource type="Script" uid="uid://cwdo0mk7e0h7d" path="res://menus/selection_menu/player_display/player_display.gd" id="1_foike"]
+[ext_resource type="Script" uid="uid://cwdo0mk7e0h7d" path="res://menus/color_selection/player_color_display/player_color_display.gd" id="1_foike"]
 [ext_resource type="Texture2D" uid="uid://cu5a7on4mrows" path="res://player/ship/ship.svg" id="2_3mqgr"]
-[ext_resource type="Theme" uid="uid://jsm10tqnct68" path="res://menus/selection_menu/player_display/color_button_theme.tres" id="3_ekfk0"]
-[ext_resource type="Script" uid="uid://d8rnidhrxae8" path="res://menus/selection_menu/player_display/color_select_button.gd" id="4_031lf"]
+[ext_resource type="Theme" uid="uid://jsm10tqnct68" path="res://menus/color_selection/player_color_display/color_button_theme.tres" id="3_ekfk0"]
+[ext_resource type="Script" uid="uid://d8rnidhrxae8" path="res://menus/color_selection/player_color_display/color_select_button.gd" id="4_031lf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_031lf"]
 draw_center = false

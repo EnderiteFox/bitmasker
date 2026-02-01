@@ -1,4 +1,4 @@
-class_name PlayerDisplay
+class_name PlayerColorDisplay
 extends Control
 
 
