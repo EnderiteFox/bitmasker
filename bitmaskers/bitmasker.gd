@@ -20,6 +20,7 @@ const SELECTION_CELL: Vector2i = Vector2i.ZERO
 
 
 var player: PlayerData
+var ability: Ability
 var tilemap_layer: TileMapLayer
 ## Last frame's trigger value for the select button
 var last_trigger_value: float = 0
@@ -27,15 +28,17 @@ var last_trigger_value: float = 0
 ## How long before the selection becomes unstable
 var remaining_stability: float = SELECTION_STABILITY_DURATION
 
+## Which players are in the selected area
+var players_in_selection: Array[PlayerData]
+
 ## True when the selection has been confirmed
 var selection_complete: bool = false
-## True if the ability is currently active
-var ability_active: bool = false
 ## True if the player is currently able to select
 var can_select: bool = true
 
 
 func _ready() -> void:
+	Game.game_instance.game_started.connect(_on_game_started)
 	reset_stability()
 
 
@@ -49,7 +52,7 @@ func _process(delta: float) -> void:
 			
 	last_trigger_value = current_trigger
 	
-	if selection_complete and not ability_active and loses_stability():
+	if selection_complete and not ability.activated and loses_stability():
 		remaining_stability -= delta * get_stability_multiplier()
 	
 	if remaining_stability <= -UNSTABILITY_INTERVAL:
@@ -65,7 +68,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		on_confirm()
 
 
-## Sets the player for the bitmasker
+## Initialized the bitmasker with a player
 func set_player(player_data: PlayerData) -> void:
 	self.player = player_data
 	self.tilemap_layer = tilemap_scene.instantiate()
@@ -168,3 +171,28 @@ func confirm_validation() -> void:
 func clear_selection() -> void:
 	tilemap_layer.clear()
 	selection_complete = false
+	
+	
+func can_start_select() -> bool:
+	return can_select and not ability.activated
+	
+	
+## Called when the game starts
+func _on_game_started() -> void:
+	for player_data: PlayerData in Game.players:
+		player_data.ship.entered_selection.connect(_on_player_enters_selection.bind(player_data))
+		player_data.ship.exited_selection.connect(_on_player_exits_selection.bind(player_data))
+		
+		
+func _on_player_enters_selection(selection: TileMapLayer, player_data: PlayerData) -> void:
+	if selection != tilemap_layer or players_in_selection.has(player_data):
+		return
+	
+	players_in_selection.append(player_data)
+	
+	
+func _on_player_exits_selection(selection: TileMapLayer, player_data: PlayerData) -> void:
+	if selection != tilemap_layer:
+		return
+		
+	players_in_selection.erase(player_data)
