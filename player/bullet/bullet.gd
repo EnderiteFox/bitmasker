@@ -2,7 +2,7 @@ class_name Bullet
 extends Area2D
 
 
-const BULLET_SPEED: float = 600
+const BULLET_SPEED: float = 850
 
 
 var player: PlayerData

@@ -9,7 +9,7 @@ signal exited_selection(tilemap: TileMapLayer)
 
 
 const ACCELERATION: float = 10
-const SPEED: int = 350
+const SPEED: int = 375
 const DEAD_ZONE: float = 0.2
 const ROTATION_SPEED: float = 0.25
 const SHOOT_COOLDOWN: float = 0.15
