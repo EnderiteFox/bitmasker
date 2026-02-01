@@ -31,7 +31,6 @@ var health: int = MAX_HEALTH
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
-	destroyed.connect(_on_destroyed)
 	tilemap_detector.body_entered.connect(_on_body_entered)
 	tilemap_detector.body_exited.connect(_on_body_exited)
 
@@ -125,11 +124,6 @@ func _on_damaged() -> void:
 		timer.start()
 		if health == 0:
 			destroyed.emit()
-		
-		
-## Called when the ship runs out of lives
-func _on_destroyed() -> void:
-	pass
 	
 	
 func _on_body_entered(body: Node2D) -> void:

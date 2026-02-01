@@ -11,12 +11,17 @@ func _process(_delta: float) -> void:
 	var min_pos: Vector2 = Vector2.INF
 	var max_pos: Vector2 = -Vector2.INF
 	
+	var alive_players: Array[PlayerData] = Game.players.filter(
+		func(player: PlayerData) -> bool:
+			return player.bitmasker != null and player.ship != null and player.ability != null
+	)
+	
 	# Iterate over players to get the minimum and maximum positions on screen
-	for player: PlayerData in Game.players:
+	for player: PlayerData in alive_players:
 		var bitmasker_rect: Rect2 = player.bitmasker.get_camera_rect()
 		var has_bitmasker_constraint: bool = bitmasker_rect.size != Vector2.ZERO
 	
-		self.global_position += player.ship.global_position / Game.players.size()
+		self.global_position += player.ship.global_position / alive_players.size()
 		min_pos.x = min(min_pos.x, player.ship.global_position.x)
 		min_pos.y = min(min_pos.y, player.ship.global_position.y)
 		max_pos.x = max(max_pos.x, player.ship.global_position.x)
