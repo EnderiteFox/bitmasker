@@ -57,6 +57,8 @@ func add_player_display(controller_id: int, player: PlayerData = null) -> void:
 	player_display.color_unselected.connect(_on_color_unselected)
 	player_display.disconnected.connect(remove_player_display.bind(controller_id))
 	
+	player_display.init_cursor.call_deferred.call_deferred()
+	
 	
 ## Removes a player display
 func remove_player_display(controller_id: int) -> void:
