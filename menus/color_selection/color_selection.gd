@@ -1,11 +1,11 @@
-class_name SelectionMenu
+class_name ColorSelection
 extends Control
 
 
 const player_display_scene: PackedScene = preload("uid://csj3ycl753d53")
 const loadout_menu_scene: PackedScene = preload("uid://ch2bfun51clpe")
 
-var player_controllers: Dictionary[int, PlayerDisplay]
+var player_controllers: Dictionary[int, PlayerColorDisplay]
 var taken_colors: Array[Color]
 
 @onready var player_list_hbox: HBoxContainer = %PlayerList
@@ -18,7 +18,7 @@ func _ready() -> void:
 	for player: PlayerData in Game.players:
 		add_player_display(player.controller_id, player)
 		
-	for player_display: PlayerDisplay in player_controllers.values():
+	for player_display: PlayerColorDisplay in player_controllers.values():
 		player_display.update_colors()
 		
 	_update_ready_button()
@@ -41,7 +41,7 @@ func add_player_display(controller_id: int, player: PlayerData = null) -> void:
 	if player_controllers.size() >= Game.MAX_PLAYERS:
 		return
 	
-	var player_display: PlayerDisplay = player_display_scene.instantiate()
+	var player_display: PlayerColorDisplay = player_display_scene.instantiate()
 	player_display.controller_id = controller_id
 	player_display.taken_colors = taken_colors
 	player_display.player = player
@@ -81,7 +81,7 @@ func _on_controller_connection_state_changed(controller_id: int, connected: bool
 func _on_color_selected(color: Color) -> void:
 	taken_colors.append(color)
 
-	for player_display: PlayerDisplay in player_controllers.values():
+	for player_display: PlayerColorDisplay in player_controllers.values():
 		player_display.update_colors()
 		
 	_update_ready_button()
@@ -91,7 +91,7 @@ func _on_color_selected(color: Color) -> void:
 func _on_color_unselected(color: Color) -> void:
 	taken_colors.erase(color)
 
-	for player_display: PlayerDisplay in player_controllers.values():
+	for player_display: PlayerColorDisplay in player_controllers.values():
 		player_display.update_colors()
 		
 	_update_ready_button()
@@ -101,7 +101,7 @@ func _on_color_unselected(color: Color) -> void:
 func _can_ready() -> bool:
 	return player_controllers.size() > 1\
 	and player_controllers.values().all(
-		func(player_display: PlayerDisplay) -> bool:
+		func(player_display: PlayerColorDisplay) -> bool:
 			return player_display.has_selected_color()
 	)
 	
@@ -114,7 +114,7 @@ func _update_ready_button() -> void:
 ## Called when the ready button is pressed
 func _on_ready() -> void:
 	for controller_id: int in player_controllers:
-		var player_display: PlayerDisplay = player_controllers[controller_id]
+		var player_display: PlayerColorDisplay = player_controllers[controller_id]
 		
 		var player_data: PlayerData
 		if player_display.player == null:
