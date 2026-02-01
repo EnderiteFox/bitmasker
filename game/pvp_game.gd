@@ -30,3 +30,10 @@ func start_game() -> void:
 		
 		var bitmasker: Bitmasker = RectangularBitmasker.new()
 		bitmasker.set_player(player)
+		
+		var ability: Ability = Terminate.new()
+		bitmasker.ability = ability
+		ability.bitmasker = bitmasker
+		player.ship.add_child(ability)
+		
+	game_started.emit()

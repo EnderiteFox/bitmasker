@@ -4,6 +4,9 @@ extends CharacterBody2D
 signal damaged
 signal destroyed
 
+signal entered_selection(tilemap: TileMapLayer)
+signal exited_selection(tilemap: TileMapLayer)
+
 
 const ACCELERATION: float = 10
 const SPEED: int = 350
@@ -25,11 +28,14 @@ var health: int = MAX_HEALTH
 @onready var ship_sprite: Sprite2D = %Sprite2D
 @onready var bullet_origin: Node2D = %BulletOrigin
 @onready var timer: Timer = $Timer
+@onready var tilemap_detector: Area2D = %TilemapDetector
 
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
 	destroyed.connect(_on_destroyed)
+	tilemap_detector.body_entered.connect(_on_body_entered)
+	tilemap_detector.body_exited.connect(_on_body_exited)
 
 
 func _physics_process(delta: float) -> void:
@@ -105,6 +111,11 @@ func shoot() -> void:
 	bullet.set_player(self.player)
 
 
+## Damages the ship
+func damage() -> void:
+	damaged.emit()
+
+
 ## Called when the ship is damaged
 func _on_damaged() -> void:
 	if timer.is_stopped():
@@ -121,8 +132,13 @@ func _on_damaged() -> void:
 ## Called when the ship runs out of lives
 func _on_destroyed() -> void:
 	pass
-
-
-## Damages the ship
-func damage() -> void:
-	damaged.emit()
+	
+	
+func _on_body_entered(body: Node2D) -> void:
+	if body is TileMapLayer:
+		entered_selection.emit(body)
+	
+	
+func _on_body_exited(body: Node2D) -> void:
+	if body is TileMapLayer:
+		exited_selection.emit(body)

@@ -11,7 +11,7 @@ var selection_start: Vector2i = Vector2i.MAX
 
 
 func on_select() -> void:
-	if not can_select:
+	if not can_start_select():
 		return
 
 	if cursor != null:

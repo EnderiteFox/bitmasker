@@ -2,9 +2,7 @@
 
 [ext_resource type="Script" uid="uid://vo5hsr2h0y8n" path="res://player/ship/player_ship.gd" id="1_0i6ok"]
 [ext_resource type="Texture2D" uid="uid://cu5a7on4mrows" path="res://player/ship/ship.svg" id="1_rlupy"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_rlupy"]
-radius = 71.063354
+[ext_resource type="PackedScene" uid="uid://b5eei5wmqtf4s" path="res://player/ship/hitbox.tscn" id="3_kd1yk"]
 
 [node name="PlayerShip" type="CharacterBody2D" unique_id=1744374571]
 scale = Vector2(0.4494618, 0.4494618)
@@ -16,8 +14,7 @@ unique_name_in_owner = true
 rotation = 1.5707964
 texture = ExtResource("1_rlupy")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1402698929]
-shape = SubResource("CircleShape2D_rlupy")
+[node name="CollisionShape2D" parent="." unique_id=1721817881 instance=ExtResource("3_kd1yk")]
 
 [node name="BulletOrigin" type="Node2D" parent="." unique_id=1723107305]
 unique_name_in_owner = true
@@ -25,3 +22,11 @@ position = Vector2(55.622078, 0)
 
 [node name="Timer" type="Timer" parent="." unique_id=1909790985]
 one_shot = true
+
+[node name="TilemapDetector" type="Area2D" parent="." unique_id=801609122]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="CollisionShape2D" parent="TilemapDetector" unique_id=1189490833 instance=ExtResource("3_kd1yk")]
