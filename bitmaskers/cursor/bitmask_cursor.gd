@@ -4,7 +4,7 @@ extends Sprite2D
 
 
 ## Emitted when the cursor moves
-signal moved
+signal moved(old_pos: Vector2i, new_pos: Vector2i)
 
 
 const POSITION_EASING: float = 10
@@ -37,6 +37,9 @@ func _process(delta: float) -> void:
 		
 		var movement_vector: Vector2i
 		
+		var old_pos: Vector2i = tile_position
+
+		
 		if joy_x > DEAD_ZONE:
 			movement_vector.x = 1
 		elif joy_x < -DEAD_ZONE:
@@ -55,7 +58,7 @@ func _process(delta: float) -> void:
 				func() -> void:
 					can_move = true
 			)
-			moved.emit()
+			moved.emit(old_pos, tile_position)
 
 
 ## Sets the tile position of the cursor
