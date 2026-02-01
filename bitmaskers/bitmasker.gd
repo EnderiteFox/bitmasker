@@ -12,8 +12,6 @@ const DEAD_ZONE: float = 0.2
 const SELECTION_STABILITY_DURATION: float = 10
 ## How long between two tiles disappearing when the selection is unstable
 const UNSTABILITY_INTERVAL: float = 0.5
-## Cooldown between selections after validating a selection
-const AFTER_VALIDATION_COOLDOWN: float = 5
 
 const PREVIEW_CELL: Vector2i = Vector2i(1, 0)
 const SELECTION_CELL: Vector2i = Vector2i.ZERO
@@ -150,6 +148,7 @@ func apply_unstability() -> void:
 	if cells.is_empty():
 		clear_selection()
 		reset_stability()
+		can_select = true
 		return
 
 	var removed_cell: Vector2i = cells.pick_random()
@@ -161,10 +160,6 @@ func confirm_validation() -> void:
 	selection_complete = true
 	reset_stability()
 	can_select = false
-	get_tree().create_timer(AFTER_VALIDATION_COOLDOWN).timeout.connect(
-		func() -> void:
-			can_select = true
-	)
 	
 
 ## Clears the selection

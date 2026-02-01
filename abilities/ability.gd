@@ -2,6 +2,9 @@
 extends Node
 
 
+const AFTER_ABILITY_COOLDOWN: float = 5
+
+
 var activated: bool = false
 
 

@@ -31,4 +31,9 @@ func activate() -> void:
 			activated = false
 			bitmasker.clear_selection()
 			bitmasker.tilemap_layer.modulate = player.color
+			
+			get_tree().create_timer(AFTER_ABILITY_COOLDOWN).timeout.connect(
+				func() -> void:
+					bitmasker.can_select = true
+			)
 	)
