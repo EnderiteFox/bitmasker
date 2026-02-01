@@ -18,7 +18,9 @@ const SELECTION_CELL: Vector2i = Vector2i.ZERO
 
 
 var player: PlayerData
-var ability: Ability
+var ability: Ability:
+	get:
+		return player.ability
 var tilemap_layer: TileMapLayer
 ## Last frame's trigger value for the select button
 var last_trigger_value: float = 0
@@ -71,9 +73,7 @@ func set_player(player_data: PlayerData) -> void:
 	self.player = player_data
 	self.tilemap_layer = tilemap_scene.instantiate()
 	self.tilemap_layer.modulate = player_data.color
-	player_data.ship.add_child(self)
 	player_data.ship.add_sibling(self.tilemap_layer)
-	player_data.bitmasker = self
 	
 	
 ## Spawn a cursor in front of the player's ship
