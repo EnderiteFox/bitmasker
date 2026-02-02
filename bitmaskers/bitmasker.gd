@@ -2,6 +2,10 @@
 extends Node2D
 
 
+signal body_entered_selection(body: Node2D)
+signal body_exited_selection(body: Node2D)
+
+
 const tilemap_scene: PackedScene = preload("uid://dd4c3njk1hoqb")
 const cursor_scene: PackedScene = preload("uid://jqwtriutj0fe")
 
@@ -28,8 +32,8 @@ var last_trigger_value: float = 0
 ## How long before the selection becomes unstable
 var remaining_stability: float = SELECTION_STABILITY_DURATION
 
-## Which players are in the selected area
-var players_in_selection: Array[PlayerData]
+## Which bodies are in the selected area
+var bodies_in_selection: Array[Node2D]
 
 ## True when the selection has been confirmed
 var selection_complete: bool = false
@@ -40,6 +44,9 @@ var can_select: bool = true
 func _ready() -> void:
 	Game.game_instance.game_started.connect(_on_game_started)
 	reset_stability()
+	
+	body_entered_selection.connect(_on_body_entered_selection)
+	body_exited_selection.connect(_on_body_exited_selection)
 
 
 func _process(delta: float) -> void:
@@ -176,20 +183,21 @@ func can_start_select() -> bool:
 	
 ## Called when the game starts
 func _on_game_started() -> void:
-	for player_data: PlayerData in Game.players:
-		player_data.ship.entered_selection.connect(_on_player_enters_selection.bind(player_data))
-		player_data.ship.exited_selection.connect(_on_player_exits_selection.bind(player_data))
-		
-		
-func _on_player_enters_selection(selection: TileMapLayer, player_data: PlayerData) -> void:
-	if selection != tilemap_layer or players_in_selection.has(player_data):
-		return
-	
-	players_in_selection.append(player_data)
+	pass
 	
 	
-func _on_player_exits_selection(selection: TileMapLayer, player_data: PlayerData) -> void:
-	if selection != tilemap_layer:
-		return
+## Called when an entity enters the selection
+func _on_body_entered_selection(body: Node2D) -> void:
+	if not bodies_in_selection.has(body):
+		bodies_in_selection.append(body)
+		body.tree_exiting.connect(_on_body_exiting_tree)
 		
-	players_in_selection.erase(player_data)
+		
+func _on_body_exited_selection(body: Node2D) -> void:
+	bodies_in_selection.erase(body)
+	if body.tree_exiting.is_connected(_on_body_exiting_tree):
+		body.tree_exiting.disconnect(_on_body_exiting_tree)
+	
+	
+func _on_body_exiting_tree(body: Node2D) -> void:
+	body_exited_selection.emit(body)

@@ -4,9 +4,6 @@ extends CharacterBody2D
 signal damaged
 signal destroyed
 
-signal entered_selection(tilemap: TileMapLayer)
-signal exited_selection(tilemap: TileMapLayer)
-
 
 const ACCELERATION: float = 10
 const SPEED: int = 375
@@ -17,7 +14,7 @@ const MAX_HEALTH: int = 5
 const INVISIBILITY_TIME: float = 1
 const HIT_ANIM_LOOP: int = 3
 
-const bullet_scene: PackedScene = preload("uid://02qbedb2v4ag")
+var bullet_scene: PackedScene = load("uid://02qbedb2v4ag")
 
 
 var player: PlayerData
@@ -26,13 +23,10 @@ var health: int = MAX_HEALTH
 
 @onready var bullet_origin: Node2D = %BulletOrigin
 @onready var timer: Timer = $Timer
-@onready var tilemap_detector: Area2D = %TilemapDetector
 
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
-	tilemap_detector.body_entered.connect(_on_body_entered)
-	tilemap_detector.body_exited.connect(_on_body_exited)
 
 
 func _physics_process(delta: float) -> void:
@@ -124,13 +118,3 @@ func _on_damaged() -> void:
 		timer.start()
 		if health == 0:
 			destroyed.emit()
-	
-	
-func _on_body_entered(body: Node2D) -> void:
-	if body is TileMapLayer:
-		entered_selection.emit(body)
-	
-	
-func _on_body_exited(body: Node2D) -> void:
-	if body is TileMapLayer:
-		exited_selection.emit(body)

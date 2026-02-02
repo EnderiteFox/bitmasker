@@ -25,8 +25,14 @@ func activate() -> void:
 		tween.tween_interval(blink_interval)
 	tween.tween_callback(
 		func() -> void:
-			for other_player: PlayerData in bitmasker.players_in_selection:
-				other_player.ship.damage()
+			for body: Node2D in bitmasker.bodies_in_selection:
+				if body is PlayerShip:
+					var ship: PlayerShip = body as PlayerShip
+					ship.damage()
+					
+				if body is Bullet:
+					var bullet: Bullet = body as Bullet
+					bullet.destroy()
 				
 			activated = false
 			bitmasker.clear_selection()
