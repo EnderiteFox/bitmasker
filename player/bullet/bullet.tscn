@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://02qbedb2v4ag"]
 
 [ext_resource type="Script" uid="uid://cuv7od0kdu2lj" path="res://player/bullet/bullet.gd" id="1_txs3d"]
+[ext_resource type="Script" uid="uid://0yf5xw5j0lp" path="res://entities/selectable.gd" id="2_k2a0t"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_473kp"]
 load_path = "res://.godot/imported/bullet.svg-67dd0d45750975579dddebf6dd9948e7.ctex"
@@ -26,3 +27,15 @@ shape = SubResource("CircleShape2D_473kp")
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1471240445]
 position = Vector2(-4, 0)
 shape = SubResource("RectangleShape2D_txs3d")
+
+[node name="Selectable" type="Area2D" parent="." unique_id=565319154 node_paths=PackedStringArray("main_body")]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+script = ExtResource("2_k2a0t")
+main_body = NodePath("..")
+metadata/_custom_type_script = "uid://0yf5xw5j0lp"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Selectable" unique_id=1615390068]
+position = Vector2(8, 0)
+shape = SubResource("CircleShape2D_473kp")

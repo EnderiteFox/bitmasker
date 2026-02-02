@@ -17,3 +17,17 @@ static func start_game() -> void:
 		return
 		
 	game_instance.start_game()
+	
+	
+## Registers a body as entering a selection
+static func process_selection_entered(body: Node2D, tilemap: TileMapLayer) -> void:
+	for player: PlayerData in players:
+		if player.bitmasker != null and player.bitmasker.tilemap_layer == tilemap:
+			player.bitmasker.body_entered_selection.emit(body)
+			
+			
+## Registers a body as exiting a selection
+static func process_selection_exited(body: Node2D, tilemap: TileMapLayer) -> void:
+	for player: PlayerData in players:
+		if player.bitmasker != null and player.bitmasker.tilemap_layer == tilemap:
+			player.bitmasker.body_exited_selection.emit(body)
