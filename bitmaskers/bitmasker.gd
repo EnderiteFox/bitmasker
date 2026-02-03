@@ -47,6 +47,8 @@ func _ready() -> void:
 	
 	body_entered_selection.connect(_on_body_entered_selection)
 	body_exited_selection.connect(_on_body_exited_selection)
+	
+	self.tree_exiting.connect(_on_exiting_tree)
 
 
 func _process(delta: float) -> void:
@@ -201,3 +203,8 @@ func _on_body_exited_selection(body: Node2D) -> void:
 	
 func _on_body_exiting_tree(body: Node2D) -> void:
 	body_exited_selection.emit(body)
+	
+	
+func _on_exiting_tree() -> void:
+	for body: Node2D in bodies_in_selection:
+		body_exited_selection.emit(body)
