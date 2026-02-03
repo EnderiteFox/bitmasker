@@ -14,7 +14,8 @@ const MOVEMENT_INTERVAL: float = 0.1
 
 
 var bitmasker: Bitmasker
-var tile_position: Vector2i
+var tile_position: Vector2i:
+	set = set_tile_position
 var target_position: Vector2
 var can_move: bool = true
 
