@@ -34,12 +34,6 @@ func activate() -> void:
 					var bullet: Bullet = body as Bullet
 					bullet.destroy()
 				
-			activated = false
-			bitmasker.clear_selection()
+			self.deactivate()
 			bitmasker.tilemap_layer.modulate = player.color
-			
-			get_tree().create_timer(AFTER_ABILITY_COOLDOWN).timeout.connect(
-				func() -> void:
-					bitmasker.can_select = true
-			)
 	)
