@@ -27,3 +27,5 @@ func init_player(p_ship: PlayerShip) -> void:
 	ability.player = self
 	ship.set_player(self)
 	bitmasker.set_player(self)
+	
+	ability.init_ability()
