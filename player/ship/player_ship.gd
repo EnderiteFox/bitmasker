@@ -13,6 +13,9 @@ const SHOOT_COOLDOWN: float = 0.15
 const MAX_HEALTH: int = 5
 const INVISIBILITY_TIME: float = 1
 const HIT_ANIM_LOOP: int = 3
+const MOVEMENT_CANCEL_THRESHOLD: float = 0.01
+
+const DRIFT_ACCELERATION: float = 600
 
 var bullet_scene: PackedScene = load("uid://02qbedb2v4ag")
 
@@ -20,6 +23,8 @@ var bullet_scene: PackedScene = load("uid://02qbedb2v4ag")
 var player: PlayerData
 var shoot_delay: float = 0
 var health: int = MAX_HEALTH
+var drift_mode: int = 0
+var last_position: Vector2
 
 @onready var bullet_origin: Node2D = %BulletOrigin
 @onready var timer: Timer = $Timer
@@ -27,6 +32,7 @@ var health: int = MAX_HEALTH
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
+	self.last_position = self.global_position
 
 
 func _physics_process(delta: float) -> void:
@@ -41,13 +47,35 @@ func _physics_process(delta: float) -> void:
 		joy = Vector2.ZERO
 		
 	var target_speed: Vector2 = joy * SPEED
-	velocity.x = move_toward(velocity.x, target_speed.x, absf(velocity.x - target_speed.x) * delta * ACCELERATION)
-	velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * ACCELERATION)
+	
+	# If we are blocked by a wall, set velocity in that direction to 0
+	if abs(self.last_position.x - self.global_position.x) < MOVEMENT_CANCEL_THRESHOLD:
+		velocity.x = 0
+	if abs(self.last_position.y - self.global_position.y) < MOVEMENT_CANCEL_THRESHOLD:
+		velocity.y = 0
+	
+	var new_velocity: Vector2 = Vector2(velocity)
+	
+	if drift_mode:
+		new_velocity.x += joy.x * delta * (DRIFT_ACCELERATION / drift_mode)
+		new_velocity.x = clamp(new_velocity.x, -SPEED, SPEED)
+		new_velocity.y += joy.y * delta * (DRIFT_ACCELERATION / drift_mode)
+		new_velocity.y = clamp(new_velocity.y, -SPEED, SPEED)
+	else:
+		new_velocity.x = move_toward(velocity.x, target_speed.x, absf(velocity.x - target_speed.x) * delta * ACCELERATION)
+		new_velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * ACCELERATION)
+		
+	velocity = new_velocity
+	
+	# Lerp rotation
 	rotation = lerp_angle(rotation, get_target_rotation(), ROTATION_SPEED)
 	
+	# Deplete shoot cooldown
 	if shoot_delay > 0:
 		shoot_delay -= delta
 	
+	# Update position
+	self.last_position = self.global_position
 	move_and_slide()
 	
 	
