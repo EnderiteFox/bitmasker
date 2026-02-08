@@ -1,5 +1,97 @@
 [gd_scene format=3 uid="uid://t1il33g5jn81"]
 
+[ext_resource type="Script" uid="uid://osh6butx5247" path="res://menus/main_menu/main_menu.gd" id="1_1nwmw"]
+[ext_resource type="PackedScene" uid="uid://chkh8g0byk657" path="res://background/background.tscn" id="1_xbn2l"]
+[ext_resource type="FontFile" uid="uid://dur7ckau10wfj" path="res://fonts/Pixel Digivolve.otf" id="3_vu5tu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1nwmw"]
+font = ExtResource("3_vu5tu")
+font_size = 128
+outline_size = 20
+outline_color = Color(0, 1, 0, 1)
+stacked_outline_count = 1
+stacked_outline_0/size = 20
+stacked_outline_0/color = Color(0, 0.5254902, 0, 1)
+
+[sub_resource type="Animation" id="Animation_xbn2l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Title:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/Control2/PlayButton:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vu5tu"]
+resource_name = "after_opening"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Control2/PlayButton:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.7058824), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1nwmw"]
+resource_name = "game_open"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/Title:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer/Control2/PlayButton:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vu5tu"]
+_data = {
+&"RESET": SubResource("Animation_xbn2l"),
+&"after_opening": SubResource("Animation_vu5tu"),
+&"game_opened": SubResource("Animation_1nwmw")
+}
+
 [node name="MainMenu" type="Control" unique_id=1636320319]
 layout_mode = 3
 anchors_preset = 15
@@ -7,3 +99,58 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_1nwmw")
+
+[node name="Background" parent="." unique_id=2010093512 instance=ExtResource("1_xbn2l")]
+layout_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1440013948]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="VBoxContainer" unique_id=515666446]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=822606392]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.3
+text = "Bitmasker"
+label_settings = SubResource("LabelSettings_1nwmw")
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters_behavior = 1
+
+[node name="Control2" type="Control" parent="VBoxContainer" unique_id=2025653225]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="PlayButton" type="Button" parent="VBoxContainer/Control2" unique_id=241067699]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 30.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Play"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=524275332]
+unique_name_in_owner = true
+libraries/ = SubResource("AnimationLibrary_vu5tu")
