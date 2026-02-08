@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalWorldEnvironment="*uid://da3a120l85gc8"
+GameArgs="*uid://bjel1om0ervp2"
 
 [debug]
 
@@ -35,6 +36,10 @@ gdscript/warnings/missing_await=1
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
+
+[editor]
+
+run/main_run_args="-- --solo"
 
 [gui]
 
