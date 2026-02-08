@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Bitmasker"
 config/version="1.0.0"
-run/main_scene="uid://ddtgh0dts4fgf"
+run/main_scene="uid://t1il33g5jn81"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
