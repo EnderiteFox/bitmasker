@@ -80,10 +80,11 @@ func _unhandled_input(event: InputEvent) -> void:
 ## Initialized the bitmasker with a player
 func set_player(player_data: PlayerData) -> void:
 	self.player = player_data
-	self.tilemap_layer = tilemap_scene.instantiate()
+	var tilemap_layer_root: Node2D = tilemap_scene.instantiate()
+	self.tilemap_layer = tilemap_layer_root.get_child(0)
 	self.tilemap_layer.modulate = player_data.color
-	player_data.ship.add_child(self.tilemap_layer)
-	self.tilemap_layer.top_level = true
+	player_data.ship.add_child(tilemap_layer_root)
+	tilemap_layer_root.top_level = true
 	
 	
 ## Spawn a cursor in front of the player's ship

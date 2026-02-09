@@ -1,8 +1,19 @@
 [gd_scene format=3 uid="uid://dd4c3njk1hoqb"]
 
 [ext_resource type="TileSet" uid="uid://b2gom3urr11fy" path="res://bitmaskers/tilemap/bitmasker_tileset.tres" id="1_b4qsf"]
+[ext_resource type="Shader" uid="uid://dlnc0yeag0se3" path="res://bitmaskers/tilemap/bitmasker.gdshader" id="1_l5wa2"]
 
-[node name="BitmaskerTilemap" type="TileMapLayer" unique_id=170976512]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l5wa2"]
+shader = ExtResource("1_l5wa2")
+shader_parameter/stripe_width = 64.0
+shader_parameter/border_width = 8
+shader_parameter/border_alpha_mult = 4.0
+shader_parameter/anim_speed = 30.0
+
+[node name="CanvasGroup" type="CanvasGroup" unique_id=471170106]
+material = SubResource("ShaderMaterial_l5wa2")
+
+[node name="BitmaskerTilemap" type="TileMapLayer" parent="." unique_id=170976512]
 scale = Vector2(6, 6)
 tile_set = ExtResource("1_b4qsf")
 navigation_enabled = false
