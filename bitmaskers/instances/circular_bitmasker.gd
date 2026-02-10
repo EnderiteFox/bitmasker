@@ -2,10 +2,14 @@ class_name CircularBitmasker
 extends Bitmasker
 
 
-const CIRCLE_RADIUS: float = 3.5
+const CIRCLE_RADIUS: float = 4
 
 
 var cursor: BitmaskCursor = null
+
+
+func get_circle_radius() -> float:
+	return CIRCLE_RADIUS + -0.1 * (ability.complexity + self.complexity) * CIRCLE_RADIUS
 
 
 func on_select() -> void:
@@ -64,14 +68,14 @@ func _on_cursor_move(_old_pos: Vector2i, new_pos: Vector2i) -> void:
 	
 	
 func _fill_circ(center: Vector2i, final_selection: bool) -> void:
-	var radius_x_right: int = center.x + int(CIRCLE_RADIUS) * 2
-	var radius_x_left : int = center.x - int(CIRCLE_RADIUS) * 2
-	var radius_y_up: int = center.y + int(CIRCLE_RADIUS) * 2
-	var radius_y_down: int = center.y - int(CIRCLE_RADIUS) * 2
+	var radius_x_right: int = center.x + int(get_circle_radius()) * 2
+	var radius_x_left : int = center.x - int(get_circle_radius()) * 2
+	var radius_y_up: int = center.y + int(get_circle_radius()) * 2
+	var radius_y_down: int = center.y - int(get_circle_radius()) * 2
 		
 	var cell_type: Vector2i = SELECTION_CELL if final_selection else PREVIEW_CELL
 	
 	for x: int in range(radius_x_left , radius_x_right):
 		for y: int in range(radius_y_down, radius_y_up):
-			if center.distance_to(Vector2i(x,y)) <= CIRCLE_RADIUS:
+			if center.distance_to(Vector2i(x,y)) <= get_circle_radius():
 				tilemap_layer.set_cell(Vector2i(x, y), 1, cell_type)

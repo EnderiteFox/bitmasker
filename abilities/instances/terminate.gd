@@ -5,6 +5,11 @@ extends Ability
 const BLINKS: int = 3
 const GRACE_PERIOD: float = 1
 const WARNING_COLOR: Color = Color.DARK_RED
+const COMPLEXITY: int = 2
+
+
+func _ready() -> void:
+	self.complexity = COMPLEXITY
 
 
 func activate() -> void:

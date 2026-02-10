@@ -6,6 +6,7 @@ const AFTER_ABILITY_COOLDOWN: float = 5
 
 
 var activated: bool = false
+var complexity: int = 0
 
 
 var player: PlayerData
