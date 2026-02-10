@@ -3,8 +3,8 @@ extends Ability
 
 
 const DURATION: float = 10
-	
-	
+
+
 func init_ability() -> void:
 	super.init_ability()
 	bitmasker.body_entered_selection.connect(_on_body_entered_selection)

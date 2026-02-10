@@ -3,7 +3,7 @@ extends Bitmasker
 ## A bitmasker that selects a rectangular region
 
 
-const MAX_SIZE: int = 50
+const MAX_SIZE: int = 60
 
 
 ## The current cursor
@@ -11,6 +11,14 @@ var cursor: BitmaskCursor = null
 ## The first selected corner of the rectangle
 ## Vector2i.MAX if the first corner was not selected yet
 var selection_start: Vector2i = Vector2i.MAX
+
+
+func _ready() -> void:
+	complexity = -1
+
+
+func get_max_size() -> float:
+	return float(MAX_SIZE + -0.1 * (ability.complexity + self.complexity) * MAX_SIZE)
 
 
 func on_select() -> void:
@@ -78,7 +86,7 @@ func get_ship_target_pos() -> Vector2:
 func _on_cursor_move(old_pos: Vector2i, new_pos: Vector2i) -> void:
 	if selection_start != Vector2i.MAX:
 		tilemap_layer.clear()
-		if (abs(selection_start.x - new_pos.x) + 1) * (abs(selection_start.y - new_pos.y) + 1) >= MAX_SIZE:
+		if (abs(selection_start.x - new_pos.x) + 1) * (abs(selection_start.y - new_pos.y) + 1) >= get_max_size():
 			cursor.set_tile_position(old_pos)
 		_fill_rect(selection_start, cursor.tile_position, false)
 		

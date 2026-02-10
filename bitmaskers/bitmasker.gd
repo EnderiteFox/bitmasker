@@ -40,6 +40,7 @@ var selection_complete: bool = false
 ## True if the player is currently able to select
 var can_select: bool = true
 
+var complexity: int = 0
 
 func _ready() -> void:
 	Game.game_instance.game_started.connect(_on_game_started)
