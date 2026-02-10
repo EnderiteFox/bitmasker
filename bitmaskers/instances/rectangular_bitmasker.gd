@@ -14,6 +14,7 @@ var selection_start: Vector2i = Vector2i.MAX
 
 
 func _ready() -> void:
+	super._ready()
 	complexity = -1
 
 
