@@ -47,12 +47,11 @@ func confirm_validation() -> void:
 	
 	
 func get_camera_rect() -> Rect2:
-	if cursor == null:
-		return Rect2(0, 0, 0, 0)
-		
-	var cursor_size: Vector2 = tile_to_global(Vector2i(1, 1))
-	
-	return Rect2(cursor.global_position, cursor_size)
+	var tilemap_rect: Rect2 = tilemap_layer.get_used_rect()
+	return Rect2(
+		tile_to_global(tilemap_rect.position),
+		tile_to_global(tilemap_rect.size)
+	)
 	
 	
 func get_ship_target_pos() -> Vector2:
