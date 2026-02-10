@@ -68,12 +68,22 @@ func clear_selection() -> void:
 	
 	
 func get_camera_rect() -> Rect2:
+	var tilemap_rect: Rect2 = tilemap_layer.get_used_rect()
+	tilemap_rect = Rect2(
+		tile_to_global(tilemap_rect.position),
+		tile_to_global(tilemap_rect.size)
+	)
+	
 	if cursor == null:
-		return Rect2(0, 0, 0, 0)
+		return tilemap_rect
 		
 	var cursor_size: Vector2 = tile_to_global(Vector2i(1, 1))
+	var cursor_rect: Rect2 = Rect2(cursor.global_position, cursor_size)
 	
-	return Rect2(cursor.global_position, cursor_size)
+	if tilemap_rect.size == Vector2.ZERO:
+		return cursor_rect
+		
+	return Rect2(cursor.global_position, cursor_size).merge(tilemap_rect)
 	
 	
 func get_ship_target_pos() -> Vector2:
