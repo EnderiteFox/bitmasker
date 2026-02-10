@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cu5a7on4mrows" path="res://player/ship/ship.svg" id="1_rlupy"]
 [ext_resource type="PackedScene" uid="uid://b5eei5wmqtf4s" path="res://player/ship/hitbox.tscn" id="3_kd1yk"]
 [ext_resource type="Script" uid="uid://0yf5xw5j0lp" path="res://entities/selectable.gd" id="4_up64h"]
+[ext_resource type="PackedScene" uid="uid://cbj0kc6b1fvs5" path="res://player/health_bar/health_bar.tscn" id="5_g10f4"]
 
 [node name="PlayerShip" type="CharacterBody2D" unique_id=1744374571]
 scale = Vector2(0.4494618, 0.4494618)
@@ -22,6 +23,7 @@ unique_name_in_owner = true
 position = Vector2(55.622078, 0)
 
 [node name="Timer" type="Timer" parent="." unique_id=1909790985]
+unique_name_in_owner = true
 one_shot = true
 
 [node name="Selectable" type="Area2D" parent="." unique_id=1637763388 node_paths=PackedStringArray("main_body")]
@@ -33,3 +35,6 @@ main_body = NodePath("..")
 metadata/_custom_type_script = "uid://0yf5xw5j0lp"
 
 [node name="CollisionShape2D" parent="Selectable" unique_id=648331232 instance=ExtResource("3_kd1yk")]
+
+[node name="HealthBar" parent="." unique_id=2128742478 instance=ExtResource("5_g10f4")]
+top_level = true

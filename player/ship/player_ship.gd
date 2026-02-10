@@ -27,7 +27,8 @@ var drift_mode: int = 0
 var last_position: Vector2
 
 @onready var bullet_origin: Node2D = %BulletOrigin
-@onready var timer: Timer = $Timer
+@onready var timer: Timer = %Timer
+@onready var sprite: Sprite2D = %Sprite2D
 
 
 func _ready() -> void:
