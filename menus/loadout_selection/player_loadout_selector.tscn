@@ -34,7 +34,8 @@ expand_margin_bottom = 5.0
 script = ExtResource("4_b2xme")
 texture = ExtResource("6_foe23")
 name = "Screenshot"
-description = "Selects a rectangular region"
+description = "Selects a rectangular region
+-1 Complexity"
 item_script = ExtResource("5_057jv")
 metadata/_custom_type_script = "uid://f8npg671pm6l"
 
@@ -50,7 +51,8 @@ metadata/_custom_type_script = "uid://f8npg671pm6l"
 script = ExtResource("4_b2xme")
 texture = ExtResource("10_qejl6")
 name = "Terminate"
-description = "Deals instant damage to players inside the selection"
+description = "Deals instant damage to players inside the selection
++2 Complexity"
 item_script = ExtResource("7_auetr")
 metadata/_custom_type_script = "uid://f8npg671pm6l"
 
