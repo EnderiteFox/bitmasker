@@ -8,7 +8,7 @@ signal moved(old_pos: Vector2i, new_pos: Vector2i)
 
 
 const POSITION_EASING: float = 10
-const DEAD_ZONE: float = 0.35
+const DEAD_ZONE: float = 0.5
 ## The time interval between two moves of the cursor
 const MOVEMENT_INTERVAL: float = 0.1
 
@@ -39,7 +39,7 @@ func _process(delta: float) -> void:
 		var joy_x: float = Input.get_joy_axis(bitmasker.player.controller_id, JOY_AXIS_RIGHT_X)
 		var joy_y: float = Input.get_joy_axis(bitmasker.player.controller_id, JOY_AXIS_RIGHT_Y)
 		
-		var movement_vector: Vector2i
+		var movement_vector: Vector2i = Vector2i.ZERO
 		
 		var old_pos: Vector2i = tile_position
 
