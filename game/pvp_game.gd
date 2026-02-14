@@ -11,23 +11,22 @@ const maps: Array[PackedScene] = [
 const END_ANIMATION_TIME: float = 5
 
 
-var map: Map
 ## Used in the end animation to prevent starting it multiple times
 var end_animation_started: bool = false
 
 
 func start_game() -> void:
 	var map_scene: PackedScene = maps.pick_random()
-	map = map_scene.instantiate()
-	self.add_child(map)
+	Game.map = map_scene.instantiate()
+	self.add_child(Game.map)
 	
 	for player: PlayerData in Game.players:
-		var spawn_point: Vector2 = map.spawn_points.pick_random()
-		map.spawn_points.erase(spawn_point)
+		var spawn_point: Vector2 = Game.map.spawn_points.pick_random()
+		Game.map.spawn_points.erase(spawn_point)
 		
 		var player_ship: PlayerShip = ship_scene.instantiate()
 		self.add_child(player_ship)
-		player_ship.global_position = map.to_global(spawn_point)
+		player_ship.global_position = Game.map.to_global(spawn_point)
 		player_ship.destroyed.connect(_on_player_death.bind(player))
 		
 		player.init_player(player_ship)

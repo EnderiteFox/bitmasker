@@ -9,6 +9,8 @@ static var players: Array[PlayerData]
 ## The game instance for the current game mode
 static var game_instance: GameInstance
 
+static var map: Map
+
 
 ## Starts the game with the current game mode
 static func start_game() -> void:
