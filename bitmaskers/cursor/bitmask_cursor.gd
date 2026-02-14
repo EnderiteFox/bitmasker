@@ -54,15 +54,23 @@ func _process(delta: float) -> void:
 		elif joy_y < -DEAD_ZONE:
 			movement_vector.y = -1
 			
-		set_tile_position(tile_position + movement_vector)
+		# Limit cursor position to inside the map
+		var new_pos: Vector2i = tile_position + movement_vector
+		var map_limits: Rect2i = Game.map.get_used_rect()
 		
-		if movement_vector != Vector2i.ZERO:
-			can_move = false
-			get_tree().create_timer(MOVEMENT_INTERVAL).timeout.connect(
-				func() -> void:
-					can_move = true
-			)
-			moved.emit(old_pos, tile_position)
+		if new_pos.x >= map_limits.position.x\
+		and new_pos.x < map_limits.position.x + map_limits.size.x\
+		and new_pos.y >= map_limits.position.y\
+		and new_pos.y < map_limits.position.y + map_limits.size.y:
+			set_tile_position(new_pos)
+			
+			if movement_vector != Vector2i.ZERO:
+				can_move = false
+				get_tree().create_timer(MOVEMENT_INTERVAL).timeout.connect(
+					func() -> void:
+						can_move = true
+				)
+				moved.emit(old_pos, tile_position)
 
 
 ## Sets the tile position of the cursor
