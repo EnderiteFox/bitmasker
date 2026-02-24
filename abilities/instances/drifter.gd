@@ -3,7 +3,11 @@ extends Ability
 
 
 const DURATION: float = 10
+const COMPLEXITY: int = -2
 
+
+func _ready() -> void:
+	self.complexity = COMPLEXITY
 
 func init_ability() -> void:
 	super.init_ability()
