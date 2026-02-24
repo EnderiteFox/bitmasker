@@ -95,7 +95,14 @@ func spawn_cursor() -> BitmaskCursor:
 	cursor.bitmasker = self
 	player.ship.add_child(cursor)
 	cursor.top_level = true
-	cursor.set_tile_position_instant(global_to_tile(global_spawn_pos - cursor.texture.get_size() * cursor.scale))
+	
+	var tile_pos: Vector2i = global_to_tile(global_spawn_pos - cursor.texture.get_size() * cursor.scale)
+	var map_size: Rect2i = Game.map.get_used_rect()
+	
+	tile_pos.x = clamp(tile_pos.x, map_size.position.x, map_size.position.x + map_size.size.x - 1)
+	tile_pos.y = clamp(tile_pos.y, map_size.position.y, map_size.position.y + map_size.size.y - 1)
+	
+	cursor.set_tile_position_instant(tile_pos)
 	cursor.modulate = player.color
 	return cursor
 	
