@@ -58,7 +58,7 @@ func get_ship_target_pos() -> Vector2:
 	if cursor == null:
 		return Vector2.INF
 		
-	return cursor.global_position - tile_to_global(Vector2i(1, 1)) / 2
+	return cursor.global_position + tile_to_global(Vector2i(1, 1)) / 2
 	
 	
 func _on_cursor_move(_old_pos: Vector2i, new_pos: Vector2i) -> void:
