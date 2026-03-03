@@ -2,13 +2,15 @@ class_name InlineSelector
 extends Control
 
 
-@export var elements: Array[SelectorItem]
+@export var loadout_item_database: LoadoutItemDatabase
 
 
 var selected_index: int = 0:
 	set(new_index):
 		selected_index = new_index % elements.size()
 		update_infos()
+		
+var elements: Array[LoadoutItem]
 
 
 @onready var ability_texture: TextureRect = %Texture
@@ -17,6 +19,8 @@ var selected_index: int = 0:
 
 
 func _ready() -> void:
+	elements = loadout_item_database.items
+
 	for i: int in range(elements.size()):
 		selected_index = i
 		self.custom_minimum_size.x = max(self.custom_minimum_size.x, get_minimum_size().x)
@@ -31,5 +35,5 @@ func update_infos() -> void:
 	ability_description.text = elements[selected_index].description
 	
 	
-func get_selected_element() -> SelectorItem:
+func get_selected_element() -> LoadoutItem:
 	return elements[selected_index]

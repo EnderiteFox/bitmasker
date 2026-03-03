@@ -1,4 +1,4 @@
-class_name SelectorItem
+class_name LoadoutItem
 extends Resource
 
 
