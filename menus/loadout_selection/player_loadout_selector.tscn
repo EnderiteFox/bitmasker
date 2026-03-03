@@ -3,15 +3,8 @@
 [ext_resource type="Script" uid="uid://2ffu3hdknke5" path="res://menus/loadout_selection/player_loadout_selector.gd" id="1_5g61p"]
 [ext_resource type="Texture2D" uid="uid://cu5a7on4mrows" path="res://player/ship/ship.svg" id="1_lq6id"]
 [ext_resource type="PackedScene" uid="uid://c38crvilqvqmr" path="res://menus/loadout_selection/inline_selector/inline_selector.tscn" id="2_5g61p"]
-[ext_resource type="Script" uid="uid://f8npg671pm6l" path="res://menus/loadout_selection/inline_selector/selector_item.gd" id="4_b2xme"]
-[ext_resource type="Script" uid="uid://g77slg1gjmjc" path="res://bitmaskers/instances/rectangular_bitmasker.gd" id="5_057jv"]
-[ext_resource type="Script" uid="uid://cuqok80nc4pkp" path="res://bitmaskers/instances/circular_bitmasker.gd" id="6_6h5en"]
-[ext_resource type="Texture2D" uid="uid://b4d81fkun686h" path="res://bitmaskers/icons/screenshot.png" id="6_foe23"]
-[ext_resource type="Script" uid="uid://12lx0hvg7n78" path="res://abilities/instances/terminate.gd" id="7_auetr"]
-[ext_resource type="Texture2D" uid="uid://dn2x1d6h6ltff" path="res://bitmaskers/icons/brush.png" id="8_51i3j"]
-[ext_resource type="Texture2D" uid="uid://1igc7f2dwlp7" path="res://abilities/icons/terminate.png" id="10_qejl6"]
-[ext_resource type="Texture2D" uid="uid://cuvdpfn6j8283" path="res://abilities/icons/drifter.png" id="11_6i8ac"]
-[ext_resource type="Script" uid="uid://cmntpouyjjdyo" path="res://abilities/instances/drifter.gd" id="11_rj34o"]
+[ext_resource type="Resource" uid="uid://dsa75gqdv863y" path="res://bitmaskers/bitmaskers.tres" id="4_b2xme"]
+[ext_resource type="Resource" uid="uid://bjduj8i1oeri6" path="res://abilities/abilities.tres" id="5_057jv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_031lf"]
 draw_center = false
@@ -29,40 +22,6 @@ expand_margin_left = 5.0
 expand_margin_top = 5.0
 expand_margin_right = 5.0
 expand_margin_bottom = 5.0
-
-[sub_resource type="Resource" id="Resource_057jv"]
-script = ExtResource("4_b2xme")
-texture = ExtResource("6_foe23")
-name = "Screenshot"
-description = "Selects a rectangular region
--1 Complexity"
-item_script = ExtResource("5_057jv")
-metadata/_custom_type_script = "uid://f8npg671pm6l"
-
-[sub_resource type="Resource" id="Resource_b2xme"]
-script = ExtResource("4_b2xme")
-texture = ExtResource("8_51i3j")
-name = "Brush"
-description = "Select a circular area"
-item_script = ExtResource("6_6h5en")
-metadata/_custom_type_script = "uid://f8npg671pm6l"
-
-[sub_resource type="Resource" id="Resource_6h5en"]
-script = ExtResource("4_b2xme")
-texture = ExtResource("10_qejl6")
-name = "Terminate"
-description = "Deals instant damage to players inside the selection
-+2 Complexity"
-item_script = ExtResource("7_auetr")
-metadata/_custom_type_script = "uid://f8npg671pm6l"
-
-[sub_resource type="Resource" id="Resource_rj34o"]
-script = ExtResource("4_b2xme")
-texture = ExtResource("11_6i8ac")
-name = "Drifter"
-description = "Players inside the selection will drift like they're on ice"
-item_script = ExtResource("11_rj34o")
-metadata/_custom_type_script = "uid://f8npg671pm6l"
 
 [node name="PlayerLoadoutSelector" type="PanelContainer" unique_id=511065838]
 anchors_preset = 8
@@ -105,9 +64,9 @@ stretch_mode = 5
 [node name="BitmaskerSelector" parent="VBoxContainer" unique_id=2124861132 instance=ExtResource("2_5g61p")]
 unique_name_in_owner = true
 layout_mode = 2
-elements = Array[ExtResource("4_b2xme")]([SubResource("Resource_057jv"), SubResource("Resource_b2xme")])
+loadout_item_database = ExtResource("4_b2xme")
 
 [node name="AbilitySelector" parent="VBoxContainer" unique_id=692305563 instance=ExtResource("2_5g61p")]
 unique_name_in_owner = true
 layout_mode = 2
-elements = Array[ExtResource("4_b2xme")]([SubResource("Resource_6h5en"), SubResource("Resource_rj34o")])
+loadout_item_database = ExtResource("5_057jv")
