@@ -10,7 +10,7 @@ signal moved(old_pos: Vector2i, new_pos: Vector2i)
 const POSITION_EASING: float = 10
 const DEAD_ZONE: float = 0.5
 ## The time interval between two moves of the cursor
-const MOVEMENT_INTERVAL: float = 0.1
+const DEFAULT_MOVEMENT_INTERVAL: float = 0.1
 
 
 var bitmasker: Bitmasker
@@ -18,6 +18,11 @@ var tile_position: Vector2i:
 	set = set_tile_position
 var target_position: Vector2
 var can_move: bool = true
+var movement_interval : float
+
+
+func _ready() -> void:
+	movement_interval = DEFAULT_MOVEMENT_INTERVAL
 
 
 func _process(delta: float) -> void:
@@ -66,7 +71,7 @@ func _process(delta: float) -> void:
 			
 			if movement_vector != Vector2i.ZERO:
 				can_move = false
-				get_tree().create_timer(MOVEMENT_INTERVAL).timeout.connect(
+				get_tree().create_timer(movement_interval).timeout.connect(
 					func() -> void:
 						can_move = true
 				)
