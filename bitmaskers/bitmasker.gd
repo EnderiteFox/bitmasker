@@ -13,9 +13,9 @@ const cursor_scene: PackedScene = preload("uid://jqwtriutj0fe")
 const CURSOR_SPAWN_DISTANCE: float = 300
 const DEAD_ZONE: float = 0.2
 ## How long before the selection becomes unstable
-const SELECTION_STABILITY_DURATION: float = 10
+const SELECTION_STABILITY_DURATION: float = 4
 ## How long between two tiles disappearing when the selection is unstable
-const UNSTABILITY_INTERVAL: float = 0.5
+const UNSTABILITY_INTERVAL: float = 0.25
 
 const PREVIEW_CELL: Vector2i = Vector2i(1, 0)
 const SELECTION_CELL: Vector2i = Vector2i.ZERO

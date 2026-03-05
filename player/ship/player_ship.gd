@@ -6,7 +6,7 @@ signal destroyed
 
 
 const ACCELERATION: float = 10
-const SPEED: int = 375
+const BASE_SPEED: int = 375
 const DEAD_ZONE: float = 0.2
 const ROTATION_SPEED: float = 0.25
 const SHOOT_COOLDOWN: float = 0.15
@@ -14,17 +14,20 @@ const MAX_HEALTH: int = 5
 const INVISIBILITY_TIME: float = 1
 const HIT_ANIM_LOOP: int = 3
 const MOVEMENT_CANCEL_THRESHOLD: float = 0.01
+const HIT_SPEED_BUFF: int = 300
 
 const DRIFT_ACCELERATION: float = 600
 
 var bullet_scene: PackedScene = load("uid://02qbedb2v4ag")
 
-
+var speed: int
 var player: PlayerData
 var shoot_delay: float = 0
 var health: int = MAX_HEALTH
 var drift_mode: int = 0
 var last_position: Vector2
+var hit_timer: SceneTreeTimer = null
+
 
 @onready var bullet_origin: Node2D = %BulletOrigin
 @onready var timer: Timer = %Timer
@@ -34,7 +37,7 @@ var last_position: Vector2
 func _ready() -> void:
 	damaged.connect(_on_damaged)
 	self.last_position = self.global_position
-
+	speed = BASE_SPEED
 
 func _physics_process(delta: float) -> void:
 	if not player:
@@ -47,7 +50,7 @@ func _physics_process(delta: float) -> void:
 	if joy.length() < 0.3:
 		joy = Vector2.ZERO
 		
-	var target_speed: Vector2 = joy * SPEED
+	var target_speed: Vector2 = joy * speed
 	
 	# If we are blocked by a wall, set velocity in that direction to 0
 	if abs(self.last_position.x - self.global_position.x) < MOVEMENT_CANCEL_THRESHOLD:
@@ -59,9 +62,9 @@ func _physics_process(delta: float) -> void:
 	
 	if drift_mode:
 		new_velocity.x += joy.x * delta * (DRIFT_ACCELERATION / drift_mode)
-		new_velocity.x = clamp(new_velocity.x, -SPEED, SPEED)
+		new_velocity.x = clamp(new_velocity.x, -speed, speed)
 		new_velocity.y += joy.y * delta * (DRIFT_ACCELERATION / drift_mode)
-		new_velocity.y = clamp(new_velocity.y, -SPEED, SPEED)
+		new_velocity.y = clamp(new_velocity.y, -speed, speed)
 	else:
 		new_velocity.x = move_toward(velocity.x, target_speed.x, absf(velocity.x - target_speed.x) * delta * ACCELERATION)
 		new_velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * ACCELERATION)
@@ -144,6 +147,12 @@ func _on_damaged() -> void:
 		damage_tween.tween_property(self, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		damage_tween.tween_property(self, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		health -= 1
+		speed += HIT_SPEED_BUFF
 		timer.start()
+		timer.timeout.connect(timeout)
 		if health == 0:
 			destroyed.emit()
+
+
+func timeout() -> void:
+	speed -= HIT_SPEED_BUFF
