@@ -36,6 +36,7 @@ var hit_timer: SceneTreeTimer = null
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
+	timer.connect("timeout", timeout)
 	self.last_position = self.global_position
 
 func _physics_process(delta: float) -> void:
@@ -146,9 +147,8 @@ func _on_damaged() -> void:
 		damage_tween.tween_property(self, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		damage_tween.tween_property(self, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		health -= 1
-		speed += HIT_SPEED_BUFF
+		speed = HIT_SPEED_BUFF + BASE_SPEED
 		timer.start()
-		timer.timeout.emit()
 		if health == 0:
 			destroyed.emit()
 
