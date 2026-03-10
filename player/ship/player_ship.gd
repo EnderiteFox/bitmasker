@@ -20,7 +20,7 @@ const DRIFT_ACCELERATION: float = 600
 
 var bullet_scene: PackedScene = load("uid://02qbedb2v4ag")
 
-var speed: int
+var speed: int = BASE_SPEED
 var player: PlayerData
 var shoot_delay: float = 0
 var health: int = MAX_HEALTH
@@ -37,7 +37,6 @@ var hit_timer: SceneTreeTimer = null
 func _ready() -> void:
 	damaged.connect(_on_damaged)
 	self.last_position = self.global_position
-	speed = BASE_SPEED
 
 func _physics_process(delta: float) -> void:
 	if not player:
@@ -149,10 +148,10 @@ func _on_damaged() -> void:
 		health -= 1
 		speed += HIT_SPEED_BUFF
 		timer.start()
-		timer.timeout.connect(timeout)
+		timer.timeout.emit()
 		if health == 0:
 			destroyed.emit()
 
 
 func timeout() -> void:
-	speed -= HIT_SPEED_BUFF
+	speed = BASE_SPEED

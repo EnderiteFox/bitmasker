@@ -4,8 +4,8 @@ extends Bitmasker
 
 
 const MAX_SIZE: int = 60
-const MOVEMENT_INTERVAL_BUFF_SELECT: float = 0.025
-const MOVEMENT_INTERVAL_BUFF_DEFAULT: float = 0.025
+const MOVEMENT_INTERVAL_CONFIRM: float = -0.05
+const MOVEMENT_INTERVAL_SELECT: float = -0.025
 
 
 
@@ -35,12 +35,12 @@ func on_select() -> void:
 	cursor = self.spawn_cursor()
 	cursor.moved.connect(_on_cursor_move)
 	clear_selection()
-	cursor.movement_interval -= MOVEMENT_INTERVAL_BUFF_DEFAULT
+	cursor.movement_interval = MOVEMENT_INTERVAL_SELECT + BitmaskCursor.DEFAULT_MOVEMENT_INTERVAL
 
 
 func on_unselect() -> void:
 	if cursor != null and not selection_complete:
-		cursor.movement_interval += MOVEMENT_INTERVAL_BUFF_SELECT + MOVEMENT_INTERVAL_BUFF_DEFAULT
+		cursor.movement_interval = BitmaskCursor.DEFAULT_MOVEMENT_INTERVAL
 		cursor.queue_free()
 		cursor = null
 		selection_start = Vector2i.MAX
@@ -51,8 +51,7 @@ func on_confirm() -> void:
 	if cursor == null:
 		return
 	
-	cursor.movement_interval -= MOVEMENT_INTERVAL_BUFF_SELECT
-	
+	cursor.movement_interval = BitmaskCursor.DEFAULT_MOVEMENT_INTERVAL + MOVEMENT_INTERVAL_CONFIRM
 	
 	if selection_start == Vector2i.MAX:
 		selection_start = Vector2i(cursor.tile_position)
