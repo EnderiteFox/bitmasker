@@ -13,6 +13,8 @@ var player: PlayerData
 var bitmasker: Bitmasker:
 	get():
 		return null if player == null else player.bitmasker
+		
+var id: StringName
 	
 	
 func _unhandled_input(event: InputEvent) -> void:

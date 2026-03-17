@@ -42,6 +42,8 @@ var can_select: bool = true
 
 var complexity: int = 0
 
+var id: StringName
+
 func _ready() -> void:
 	Game.game_instance.game_started.connect(_on_game_started)
 	reset_stability()
