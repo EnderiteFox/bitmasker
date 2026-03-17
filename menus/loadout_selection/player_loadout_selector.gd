@@ -102,8 +102,12 @@ func init_cursor() -> void:
 	
 	
 func confirm_loadout() -> void:
-	player.bitmasker = bitmasker_selector.get_selected_element().item_script.new()
-	player.ability = ability_selector.get_selected_element().item_script.new()
+	var bitmasker_loadout_item: LoadoutItem = bitmasker_selector.get_selected_element()
+	player.bitmasker = bitmasker_loadout_item.item_script.new()
+	player.bitmasker.id = bitmasker_loadout_item.id
+	var ability_loadout_item: LoadoutItem = ability_selector.get_selected_element()
+	player.ability = ability_loadout_item.item_script.new()
+	player.ability.id = ability_loadout_item.id
 	
 	
 func _can_switch_element() -> bool:
