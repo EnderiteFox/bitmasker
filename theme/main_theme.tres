@@ -1,7 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://bwfgjif6ajm18"]
 
-[ext_resource type="FontFile" path="res://fonts/Pixel Digivolve.otf" id="1_1knni"]
 [ext_resource type="StyleBox" uid="uid://bldxm4vdk044r" path="res://theme/default_style_box.tres" id="1_afw5t"]
+[ext_resource type="FontFile" uid="uid://dur7ckau10wfj" path="res://fonts/PixelDigivolve.otf" id="1_os614"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afw5t"]
 content_margin_left = 30.0
@@ -21,9 +21,9 @@ corner_radius_bottom_left = 20
 
 [resource]
 Button/font_sizes/font_size = 24
-Button/fonts/font = ExtResource("1_1knni")
+Button/fonts/font = ExtResource("1_os614")
 Button/styles/disabled = SubResource("StyleBoxFlat_afw5t")
 Button/styles/normal = ExtResource("1_afw5t")
-Label/fonts/font = ExtResource("1_1knni")
+Label/fonts/font = ExtResource("1_os614")
 PanelContainer/styles/panel = ExtResource("1_afw5t")
 VBoxContainer/constants/separation = 16
