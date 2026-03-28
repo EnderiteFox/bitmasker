@@ -42,6 +42,10 @@ window/stretch/mode="canvas_items"
 
 run/main_run_args="-- --solo"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_doctor/plugin.cfg")
+
 [gui]
 
 theme/custom="uid://bwfgjif6ajm18"

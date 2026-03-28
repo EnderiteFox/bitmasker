@@ -7,3 +7,6 @@
 
 # Temp files
 *.temp
+
+# Godot doctor reports
+tests/reports/
