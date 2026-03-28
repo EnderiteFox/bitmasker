@@ -1,0 +1,65 @@
+name: "Godot Doctor"
+
+on:
+  # Allow the workflow to be triggered manually from the GitHub Actions tab
+  workflow_dispatch:
+  # Trigger the workflow on pull request to any branch
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  # This job runs the Godot Doctor CLI to analyze the project and (optionally) generate a report
+  godot-doctor:
+    name: "Run Godot Doctor CLI"
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository to access the Godot project files
+      - uses: "actions/checkout@v6.0.2"
+      # Install Godot
+      - name: "Install Godot"
+        run: |
+          GODOT_VERSION="4.6.1"
+          wget -q "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          unzip -q "Godot_v${GODOT_VERSION}-stable_linux.x86_64.zip"
+          mv "Godot_v${GODOT_VERSION}-stable_linux.x86_64" /usr/local/bin/godot
+          chmod +x /usr/local/bin/godot
+      # Import the project first to ensure that it is ready for analysis.
+      - name: Import project
+        # This quits as soon as the project is imported, which is sufficient
+        # for preparing the project for analysis
+        # We use `--quit-after 30` as a failsafe so the runner doesn't hang
+        # indefinitely if something goes wrong during importing
+        # You may want to adjust this timeout if you find that your project
+        # takes longer than 30 seconds to import.
+        run: |
+          godot --headless --editor --debug --quit --quit-after 30 > >(tee -a stdout.txt) 2> >(tee -a stderr.txt >&2)
+          ! grep "SCRIPT ERROR" stderr.txt
+      - name: "Run Godot Doctor CLI"
+        # Now we run Godot Doctor again, this time running Godot Doctor through the CLI.
+        # Again, we use `--quit-after 30` as a failsafe to prevent hanging indefinitely.
+        run: |
+          godot --headless --editor --debug --quit-after 30 -- --run-godot-doctor > >(tee -a stdout.txt) 2> >(tee -a stderr.txt >&2)
+          ! grep "SCRIPT ERROR:" stderr.txt
+      # Optional: When using the `enable_xml_report` setting, you can upload
+      # the generated XML report as an artifact for later analysis
+      - name: "Upload Godot Doctor Report"
+        # Run regardless of the success or failure of the previous step,
+        # as we want to know the results of Godot Doctor even if
+        # it finds issues in the project, and thus fails the previous step.
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          # The name of the artifact can be anything you like.
+          # Here we use "godot-doctor-report" for clarity.
+          name: godot-doctor-report
+          # The path to the generated XML report.
+          # This should match the path you configured in the settings resource.
+          path: tests/reports/godot_doctor_report.xml
+      # Optional: You can also summarize the report in the workflow logs for a quick overview.
+      # (See the next section 'Generating a JUnit-like XML Report' for more details
+      #  on the XML report and how to generate it.)
+      - name: Summarise report
+        if: always()
+        # The contents of this script can be found in the `cli_example` example.
+        run:
+          python3 .github/workflows/scripts/godot_doctor_job_summary_reporter.py
