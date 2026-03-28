@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bwmu0wamsapy0"]
+
+[ext_resource type="Script" uid="uid://dbkia2nlj8pf8" path="res://abilities/particle/ability_particle.gd" id="1_73gkx"]
+
+[node name="AbilityParticle" type="Sprite2D" unique_id=1375573913]
+script = ExtResource("1_73gkx")
