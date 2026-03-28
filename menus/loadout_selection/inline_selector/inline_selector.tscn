@@ -2,6 +2,12 @@
 
 [ext_resource type="Texture2D" uid="uid://c65xplurcuy1t" path="res://menus/loadout_selection/inline_selector/arrow.svg" id="1_entpr"]
 [ext_resource type="Script" uid="uid://box2bg56bq3cm" path="res://menus/loadout_selection/inline_selector/inline_selector.gd" id="1_fsrmu"]
+[ext_resource type="Script" uid="uid://f8npg671pm6l" path="res://loadout/loadout_item.gd" id="2_udbwy"]
+[ext_resource type="Script" uid="uid://bhnts504kelm0" path="res://loadout/loadout_item_database.gd" id="3_h54mx"]
+
+[sub_resource type="Resource" id="Resource_oy1r0"]
+script = ExtResource("3_h54mx")
+metadata/_custom_type_script = "uid://bhnts504kelm0"
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_entpr"]
 size = Vector2(75, 75)
@@ -31,6 +37,7 @@ offset_bottom = 156.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fsrmu")
+loadout_item_database = SubResource("Resource_oy1r0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1111465742]
 layout_mode = 2
