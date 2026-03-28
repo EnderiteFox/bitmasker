@@ -154,8 +154,8 @@ func global_to_tile(pos: Vector2) -> Vector2i:
 	
 	
 ## Turns tile coordinates into a global position
-func tile_to_global(tile_pos: Vector2i) -> Vector2:
-	return tile_pos * tilemap_layer.tile_set.tile_size * tilemap_layer.scale.x
+func tile_to_global(tile_pos: Vector2) -> Vector2:
+	return tile_pos * (tilemap_layer.tile_set.tile_size * tilemap_layer.scale.x)
 	
 	
 ## Resets the stability timer
