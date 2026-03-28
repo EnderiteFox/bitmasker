@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://bwfgjif6ajm18"]
 
-[ext_resource type="FontFile" uid="uid://dur7ckau10wfj" path="res://fonts/Pixel Digivolve.otf" id="1_1knni"]
+[ext_resource type="FontFile" path="res://fonts/Pixel Digivolve.otf" id="1_1knni"]
 [ext_resource type="StyleBox" uid="uid://bldxm4vdk044r" path="res://theme/default_style_box.tres" id="1_afw5t"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_afw5t"]
