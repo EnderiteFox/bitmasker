@@ -8,6 +8,8 @@ signal body_exited_selection(body: Node2D)
 
 const tilemap_scene: PackedScene = preload("uid://dd4c3njk1hoqb")
 const cursor_scene: PackedScene = preload("uid://jqwtriutj0fe")
+const ability_particle_scene: PackedScene = preload("uid://bwmu0wamsapy0")
+const abilities: LoadoutItemDatabase = preload("uid://bjduj8i1oeri6")
 
 ## How far the cursor spawns
 const CURSOR_SPAWN_DISTANCE: float = 300
@@ -17,7 +19,16 @@ const SELECTION_STABILITY_DURATION: float = 4
 ## How long between two tiles disappearing when the selection is unstable
 const UNSTABILITY_INTERVAL: float = 0.25
 
+## The delay between two particles
+const PARTICLE_INTERVAL: float = 0.1
+const INACTIVE_PARTICLE_OPACITY: float = 0.35
+const ACTIVE_PARTICLE_OPACITY: float = 0.8
+const PARTICLE_MOVE_SPEED: float = 0.25
+const PARTICLE_SCALE: float = 2.5
+
+## Tilemap Atlas coordinates of the preview cell
 const PREVIEW_CELL: Vector2i = Vector2i(1, 0)
+## Tilemap Atlas coordinates of the selection cell
 const SELECTION_CELL: Vector2i = Vector2i.ZERO
 
 
@@ -43,6 +54,8 @@ var can_select: bool = true
 var complexity: int = 0
 
 var id: StringName
+
+var emitter: GPUParticles2D
 
 func _ready() -> void:
 	Game.game_instance.game_started.connect(_on_game_started)
@@ -78,9 +91,42 @@ func _unhandled_input(event: InputEvent) -> void:
 			
 	if event.is_action_pressed(&"confirm"):
 		on_confirm()
+		
+	
+## Initializes the bitmasker	
+func init_bitmasker() -> void:
+	emit_particle()
+	
+	
+func emit_particle() -> void:
+	var tilemap_rect: Rect2i = tilemap_layer.get_used_rect()
+	if tilemap_rect.size != Vector2i.ZERO:
+		var selected_tile: Vector2i = tilemap_layer.get_used_cells().pick_random()
+		var pos_in_tile: Vector2 = Vector2(randf(), randf())
+		var particle_pos: Vector2 = tile_to_global(selected_tile) + tile_to_global(pos_in_tile)
+		
+		var ability_particle: AbilityParticle = ability_particle_scene.instantiate()
+		Game.map.add_child(ability_particle)
+		ability_particle.global_position = particle_pos
+		
+		var ability_activation: AbilityParticle.ActivationType
+		if ability.activated:
+			ability_activation = AbilityParticle.ActivationType.ACTIVE
+		elif selection_complete:
+			ability_activation = AbilityParticle.ActivationType.SELECTED
+		else:
+			ability_activation = AbilityParticle.ActivationType.PRESELECTION
+		
+		ability_particle.init(
+			abilities.get_from_id(ability.id).texture,
+			player.color,
+			ability_activation
+		)
+		
+	get_tree().create_timer(PARTICLE_INTERVAL).timeout.connect(emit_particle)
 
 
-## Initialized the bitmasker with a player
+## Initializes the bitmasker with a player
 func set_player(player_data: PlayerData) -> void:
 	self.player = player_data
 	var tilemap_layer_root: Node2D = tilemap_scene.instantiate()
