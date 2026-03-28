@@ -101,7 +101,7 @@ func _on_color_unselected(color: Color) -> void:
 
 ## Returns true if all players are ready
 func _can_ready() -> bool:
-	var required_players: int = 1 if GameArgs.can_start_solo else 2
+	var required_players: int = 1 if (GameArgs as GameArguments).can_start_solo else 2
 
 	return player_controllers.size() >= required_players\
 	and player_controllers.values().all(

@@ -19,8 +19,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalWorldEnvironment="*uid://da3a120l85gc8"
-GameArgs="*uid://bjel1om0ervp2"
 GameInputs="*uid://bue1eeq7bjryh"
+GameArgs="*uid://bjel1om0ervp2"
 
 [debug]
 
