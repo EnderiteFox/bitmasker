@@ -89,6 +89,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed(&"attack"):
 		shoot()
+		
+	
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	return [
+		ValidationCondition.is_scene_of_type(bullet_scene, Bullet)
+	]
 
 
 ## Returns the direction the ship is aiming at

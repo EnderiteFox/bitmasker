@@ -11,3 +11,8 @@ const ship_scene: PackedScene = preload("uid://3er7segq5hwn")
 
 
 @abstract func start_game() -> void
+
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	return [
+		ValidationCondition.is_scene_of_type(ship_scene, PlayerShip)
+	]

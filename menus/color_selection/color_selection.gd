@@ -35,6 +35,12 @@ func _unhandled_input(input_event: InputEvent) -> void:
 	if input_event.is_action_pressed(&"start") and _can_ready():
 		_on_ready()
 		
+	
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	return [
+		ValidationCondition.is_scene_of_type(player_display_scene, PlayerColorDisplay)
+	]
+		
 		
 ## Adds a player display
 func add_player_display(controller_id: int, player: PlayerData = null) -> void:

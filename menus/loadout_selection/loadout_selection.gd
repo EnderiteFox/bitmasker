@@ -30,6 +30,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"start") and _can_ready():
 		_on_start()
 		
+
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	return [
+		ValidationCondition.is_scene_of_type(loadout_selector_scene, PlayerLoadoutSelector)
+	]
+		
 		
 func _can_ready() -> bool:
 	return selectors.all(

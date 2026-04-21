@@ -64,3 +64,12 @@ func _on_game_end() -> void:
 		func() -> void:
 			get_tree().change_scene_to_file("uid://ddtgh0dts4fgf")
 	)
+	
+
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	var conditions: Array[ValidationCondition] = []
+	
+	for map_scene: PackedScene in maps:
+		conditions.append(ValidationCondition.is_scene_of_type(map_scene, Map))
+	
+	return conditions
