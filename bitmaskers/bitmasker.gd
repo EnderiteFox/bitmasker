@@ -92,6 +92,14 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"confirm"):
 		on_confirm()
 		
+		
+func _get_validation_conditions() -> Array[ValidationCondition]:
+	return [
+		ValidationCondition.is_scene_of_type(tilemap_scene, CanvasGroup),
+		ValidationCondition.is_scene_of_type(cursor_scene, BitmaskCursor),
+		ValidationCondition.is_scene_of_type(ability_particle_scene, AbilityParticle)
+	]
+	
 	
 ## Initializes the bitmasker	
 func init_bitmasker() -> void:
