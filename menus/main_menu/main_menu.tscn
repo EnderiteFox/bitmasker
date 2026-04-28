@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://osh6butx5247" path="res://menus/main_menu/main_menu.gd" id="1_1nwmw"]
 [ext_resource type="PackedScene" uid="uid://chkh8g0byk657" path="res://background/background.tscn" id="1_xbn2l"]
-[ext_resource type="FontFile" uid="uid://dur7ckau10wfj" path="res://fonts/Pixel Digivolve.otf" id="3_vu5tu"]
+[ext_resource type="FontFile" uid="uid://dur7ckau10wfj" path="res://fonts/PixelDigivolve.otf" id="3_vu5tu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1nwmw"]
 font = ExtResource("3_vu5tu")
