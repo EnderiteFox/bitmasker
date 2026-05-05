@@ -9,6 +9,7 @@ const COMPLEXITY: int = -2
 func _ready() -> void:
 	self.complexity = COMPLEXITY
 
+
 func init_ability() -> void:
 	super.init_ability()
 	bitmasker.body_entered_selection.connect(_on_body_entered_selection)

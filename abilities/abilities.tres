@@ -6,6 +6,10 @@
 [ext_resource type="Texture2D" uid="uid://1igc7f2dwlp7" path="res://abilities/icons/terminate.png" id="3_ishm4"]
 [ext_resource type="Script" uid="uid://cmntpouyjjdyo" path="res://abilities/instances/drifter.gd" id="4_epa6j"]
 [ext_resource type="Texture2D" uid="uid://cuvdpfn6j8283" path="res://abilities/icons/drifter.png" id="5_kl8id"]
+[ext_resource type="Script" uid="uid://cy03vffn7i1n0" path="res://abilities/instances/overclock.gd" id="6_kl8id"]
+[ext_resource type="Script" uid="uid://clqd8ksl0afjx" path="res://abilities/instances/underclock.gd" id="7_n04bj"]
+[ext_resource type="Texture2D" uid="uid://chbe87swdr5ox" path="res://abilities/icons/overclock.png" id="7_ps5b5"]
+[ext_resource type="Texture2D" uid="uid://dpuv165c4ubt4" path="res://abilities/icons/underclock.png" id="9_8a7gp"]
 
 [sub_resource type="Resource" id="Resource_epa6j"]
 script = ExtResource("1_el0w0")
@@ -27,7 +31,25 @@ item_script = ExtResource("4_epa6j")
 id = &"drifter"
 metadata/_custom_type_script = "uid://f8npg671pm6l"
 
+[sub_resource type="Resource" id="Resource_kl8id"]
+script = ExtResource("1_el0w0")
+texture = ExtResource("7_ps5b5")
+name = "Overclock"
+description = "Makes everything twice as fast inside the selection"
+item_script = ExtResource("6_kl8id")
+id = &"overclock"
+metadata/_custom_type_script = "uid://f8npg671pm6l"
+
+[sub_resource type="Resource" id="Resource_83trf"]
+script = ExtResource("1_el0w0")
+texture = ExtResource("9_8a7gp")
+name = "Underclock"
+description = "Makes everything half as fast inside the selection"
+item_script = ExtResource("7_n04bj")
+id = &"underclock"
+metadata/_custom_type_script = "uid://f8npg671pm6l"
+
 [resource]
 script = ExtResource("2_2u5mg")
-items = Array[ExtResource("1_el0w0")]([SubResource("Resource_epa6j"), SubResource("Resource_n04bj")])
+items = Array[ExtResource("1_el0w0")]([SubResource("Resource_epa6j"), SubResource("Resource_n04bj"), SubResource("Resource_kl8id"), SubResource("Resource_83trf")])
 metadata/_custom_type_script = "uid://bhnts504kelm0"
