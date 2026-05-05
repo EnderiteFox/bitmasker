@@ -6,6 +6,7 @@ const BULLET_SPEED: float = 850
 
 
 var player: PlayerData
+var speed_modifier: FloatModifier = FloatModifier.new()
 
 
 func _ready() -> void:
@@ -16,7 +17,7 @@ func _physics_process(delta: float) -> void:
 	self.global_position += Vector2(
 		cos(self.global_rotation),
 		sin(self.global_rotation)
-	) * delta * BULLET_SPEED
+	) * delta * BULLET_SPEED * speed_modifier.get_modifier()
 
 
 ## Removes the bullet

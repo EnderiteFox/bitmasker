@@ -27,16 +27,17 @@ var health: int = MAX_HEALTH
 var drift_mode: int = 0
 var last_position: Vector2
 var hit_timer: SceneTreeTimer = null
+var speed_modifier: FloatModifier = FloatModifier.new()
 
 
 @onready var bullet_origin: Node2D = %BulletOrigin
-@onready var timer: Timer = %Timer
+@onready var damaged_speed_boost_timer: Timer = %Timer
 @onready var sprite: Sprite2D = %Sprite2D
 
 
 func _ready() -> void:
 	damaged.connect(_on_damaged)
-	timer.connect("timeout", timeout)
+	damaged_speed_boost_timer.timeout.connect(reset_speed)
 	self.last_position = self.global_position
 
 func _physics_process(delta: float) -> void:
@@ -50,7 +51,7 @@ func _physics_process(delta: float) -> void:
 	if joy.length() < 0.3:
 		joy = Vector2.ZERO
 		
-	var target_speed: Vector2 = joy * speed
+	var target_speed: Vector2 = joy * speed * speed_modifier.get_modifier()
 	
 	# If we are blocked by a wall, set velocity in that direction to 0
 	if abs(self.last_position.x - self.global_position.x) < MOVEMENT_CANCEL_THRESHOLD:
@@ -61,22 +62,22 @@ func _physics_process(delta: float) -> void:
 	var new_velocity: Vector2 = Vector2(velocity)
 	
 	if drift_mode:
-		new_velocity.x += joy.x * delta * (DRIFT_ACCELERATION / drift_mode)
-		new_velocity.x = clamp(new_velocity.x, -speed, speed)
-		new_velocity.y += joy.y * delta * (DRIFT_ACCELERATION / drift_mode)
-		new_velocity.y = clamp(new_velocity.y, -speed, speed)
+		new_velocity.x += joy.x * delta * speed_modifier.get_modifier() * (DRIFT_ACCELERATION / drift_mode)
+		new_velocity.x = clamp(new_velocity.x, -speed * speed_modifier.get_modifier(), speed * speed_modifier.get_modifier())
+		new_velocity.y += joy.y * delta * speed_modifier.get_modifier() * (DRIFT_ACCELERATION / drift_mode)
+		new_velocity.y = clamp(new_velocity.y, -speed * speed_modifier.get_modifier(), speed * speed_modifier.get_modifier())
 	else:
-		new_velocity.x = move_toward(velocity.x, target_speed.x, absf(velocity.x - target_speed.x) * delta * ACCELERATION)
-		new_velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * ACCELERATION)
+		new_velocity.x = move_toward(velocity.x, target_speed.x, absf(velocity.x - target_speed.x) * delta * speed_modifier.get_modifier() * ACCELERATION)
+		new_velocity.y = move_toward(velocity.y, target_speed.y, absf(velocity.y - target_speed.y) * delta * speed_modifier.get_modifier() * ACCELERATION)
 		
 	velocity = new_velocity
 	
 	# Lerp rotation
-	rotation = lerp_angle(rotation, get_target_rotation(), ROTATION_SPEED)
+	rotation = lerp_angle(rotation, get_target_rotation(), ROTATION_SPEED * speed_modifier.get_modifier())
 	
 	# Deplete shoot cooldown
 	if shoot_delay > 0:
-		shoot_delay -= delta
+		shoot_delay -= delta * speed_modifier.get_modifier()
 	
 	# Update position
 	self.last_position = self.global_position
@@ -147,17 +148,17 @@ func damage() -> void:
 
 ## Called when the ship is damaged
 func _on_damaged() -> void:
-	if timer.is_stopped():
+	if damaged_speed_boost_timer.is_stopped():
 		var damage_tween: Tween = get_tree().create_tween()
 		damage_tween.set_loops(HIT_ANIM_LOOP)
 		damage_tween.tween_property(self, "modulate", Color.DARK_RED, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		damage_tween.tween_property(self, "modulate", player.color, INVISIBILITY_TIME / (HIT_ANIM_LOOP * 2))
 		health -= 1
 		speed = HIT_SPEED_BUFF + BASE_SPEED
-		timer.start()
+		damaged_speed_boost_timer.start()
 		if health == 0:
 			destroyed.emit()
 
 
-func timeout() -> void:
+func reset_speed() -> void:
 	speed = BASE_SPEED
